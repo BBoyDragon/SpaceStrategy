@@ -11,6 +11,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 *.log
+*.cubemap
 
 # By default unity supports Blender asset imports, *.blend1 blender files do not need to be commited to version control.
 *.blend1
@@ -67,6 +68,7 @@ sysinfo.txt
 *.unitypackage
 *.unitypackage.meta
 *.app
+*.cubemap
 
 # Crashlytics generated file
 crashlytics-build.properties
