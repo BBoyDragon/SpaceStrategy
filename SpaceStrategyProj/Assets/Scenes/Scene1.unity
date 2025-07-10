@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 7e04d861d8b7d434fafb3428799b4476, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -608,6 +608,10 @@ PrefabInstance:
     - target: {fileID: 4868461632406542617, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
       propertyPath: m_Name
       value: poln (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868461632406542617, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 838284050572322298, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
@@ -11290,6 +11294,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: poln (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4868461632406542617, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 838284050572322298, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
     - {fileID: 4785376889752089012, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
@@ -21639,7 +21647,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2110636380
 Transform:
   m_ObjectHideFlags: 0
@@ -21718,6 +21726,10 @@ PrefabInstance:
     - target: {fileID: 4868461632406542617, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
       propertyPath: m_Name
       value: poln
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868461632406542617, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 838284050572322298, guid: e086784881f98b74f85f5eb7c810378a, type: 3}
