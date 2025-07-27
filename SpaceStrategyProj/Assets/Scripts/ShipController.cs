@@ -13,17 +13,26 @@ public class ShipController : MonoBehaviour
     Vector3Int targetship;
     Vector3Int currentposint;
     public ShipModel model;
-    public ShipModel modelp1;
-    public ShipModel modelp2;
+    public ShipModel shipred1;
+    public ShipModel shipred2;
+    public ShipModel shipred3;
+    public ShipModel shipblue1;
+    public ShipModel shipblue2;
+    public ShipModel shipblue3;
     public InputFieldReader input;
-    public bool IsShip1Active;
     public Button switchButton;
+    Queue<ShipModel> shipQueue = new Queue<ShipModel>();
 
     private void Start()
     {
-        model = modelp1;
-        IsShip1Active = true;
-        switchButton.onClick.AddListener(SwitchShips);
+        shipQueue.Enqueue(shipred1);
+        shipQueue.Enqueue(shipred2);
+        shipQueue.Enqueue(shipred3);
+        shipQueue.Enqueue(shipblue1);
+        shipQueue.Enqueue(shipblue2);
+        shipQueue.Enqueue(shipblue3);
+        model = shipQueue.Dequeue();
+        switchButton.onClick.AddListener(QueueMover);
     }
 
     private void Update()
@@ -37,18 +46,18 @@ public class ShipController : MonoBehaviour
         model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),1f*Time.deltaTime);
     }
 
-    void SwitchShips()
+    public void QueueMover()
     {
-        if (IsShip1Active)
+        if (shipQueue.Count == 0)
         {
-            model = modelp2;
-            IsShip1Active=false;
+            shipQueue.Enqueue(shipred1);
+            shipQueue.Enqueue(shipred2);
+            shipQueue.Enqueue(shipred3);
+            shipQueue.Enqueue(shipblue1);
+            shipQueue.Enqueue(shipblue2);
+            shipQueue.Enqueue(shipblue3);
         }
-        else
-        {
-            model = modelp1;
-            IsShip1Active=true;
-        }
+        model = shipQueue.Dequeue();
     }
     public void GetTargetLocation()
     {

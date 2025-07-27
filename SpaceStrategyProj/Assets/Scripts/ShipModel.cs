@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class ShipModel
+public class ShipModel : MonoBehaviour
 {
     public int energy;
     public int energyregen;
@@ -18,6 +19,17 @@ public class ShipModel
     public int firerange;
 
     public string playername;
+
+    new Transform transform;
+
+    public Vector3 position;
+
+    private void Start()
+    {
+        transform = GetComponent<Transform>();
+        Vector3 positionn = transform.position;
+        position = positionn;
+    }
 
     public ShipModel(int energy, int energyregen, int shield, int shieldmax,
         int shieldregen, int speed, int warprange, int firepowermin, int firepowermax,
