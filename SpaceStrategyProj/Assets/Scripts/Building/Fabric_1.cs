@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Fabric_1 : Fabric
 {
+    public int Hod=0;
     // Дополнительные поля, если нужны
     private float spawnInterval;
 
@@ -21,6 +22,14 @@ public class Fabric_1 : Fabric
 
      void Start()
     {        
-      Spawn();
+      
+    }
+    private void Update()
+    {
+        if (Hod != 0)
+        {
+            Spawn();
+            Hod = 0;
+        }
     }
 }
