@@ -2,66 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
-using TMPro;
 using static UnityEditor.Progress;
 using UnityEngine.UI;
+using System;
 
 public class ShipController : MonoBehaviour
 {
-    public ShipModel ship = new ShipModel(1,1,1,1,1,1,1,1,1,1,"a");
-
-    Vector3Int targetship;
+    public Vector3Int targetship;
     Vector3Int currentposint;
     public ShipModel model;
-    public ShipModel shipred1;
-    public ShipModel shipred2;
-    public ShipModel shipred3;
-    public ShipModel shipblue1;
-    public ShipModel shipblue2;
-    public ShipModel shipblue3;
-    public InputFieldReader input;
-    public Button switchButton;
-    Queue<ShipModel> shipQueue = new Queue<ShipModel>();
 
     private void Start()
     {
-        shipQueue.Enqueue(shipred1);
-        shipQueue.Enqueue(shipred2);
-        shipQueue.Enqueue(shipred3);
-        shipQueue.Enqueue(shipblue1);
-        shipQueue.Enqueue(shipblue2);
-        shipQueue.Enqueue(shipblue3);
-        model = shipQueue.Dequeue();
-        switchButton.onClick.AddListener(QueueMover);
+        currentposint = ToGameCoordinates(model.transform.position);
+        targetship = ToGameCoordinates(model.transform.position);
     }
 
     private void Update()
     {
-        GetTargetLocation();
+        model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),5f*Time.deltaTime);
+    }
+    public void GetTargetLocation(Vector3Int inputik)
+    {
+        targetship = inputik;
+    }
+
+    public void GetStep()
+    {
         if (currentposint != targetship)
         {
             Step();
             Debug.Log(currentposint + " " + targetship);
         }
-        model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),1f*Time.deltaTime);
-    }
 
-    public void QueueMover()
-    {
-        if (shipQueue.Count == 0)
-        {
-            shipQueue.Enqueue(shipred1);
-            shipQueue.Enqueue(shipred2);
-            shipQueue.Enqueue(shipred3);
-            shipQueue.Enqueue(shipblue1);
-            shipQueue.Enqueue(shipblue2);
-            shipQueue.Enqueue(shipblue3);
-        }
-        model = shipQueue.Dequeue();
-    }
-    public void GetTargetLocation()
-    {
-        targetship = input.ReadInput();
     }
 
     public void Fire(ShipModel targetship)
@@ -98,4 +71,10 @@ public class ShipController : MonoBehaviour
     {
         return new (coordinates.x *10, coordinates.y * 10, coordinates.z * 10);
     }
+
+    private Vector3Int ToGameCoordinates(Vector3 coordinates)
+    {
+        return new(Convert.ToInt32(coordinates.x / 10), Convert.ToInt32(coordinates.y / 10), Convert.ToInt32(coordinates.z / 10));
+    }
+
 }
