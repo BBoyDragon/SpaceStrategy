@@ -21,30 +21,16 @@ public class ControllerController : MonoBehaviour
     public bool IsPlayer1Turn = true;
     public void QueueMover()
     {
-        if (IsPlayer1Turn)
-        {
-            if (player1shipQueue.Count == 0)
-            {
-                foreach (ShipController controller in player1shipControllers)
-                {
-                    player1shipQueue.Enqueue(controller);
-                }
-            }
-            currentcontroller.GetTargetLocation(input.ReadInput());
+       if (player1shipQueue.Count!=0)
+       {
             currentcontroller = player1shipQueue.Dequeue();
-        }
-        else
-        {
-            if (player2shipQueue.Count == 0)
-            {
-                foreach (ShipController controller in player2shipControllers)
-                {
-                    player2shipQueue.Enqueue(controller);
-                }
-            }
             currentcontroller.GetTargetLocation(input.ReadInput());
+       }
+       else if(player2shipQueue.Count!=0) 
+       {
             currentcontroller = player2shipQueue.Dequeue();
-        }
+            currentcontroller.GetTargetLocation(input.ReadInput());
+       }
     }
 
 // Start is called before the first frame update
@@ -59,23 +45,19 @@ public class ControllerController : MonoBehaviour
                 player1shipQueue.Enqueue(controller);
             }
         }
-        currentcontroller = player1shipQueue.Dequeue();
-        if (player2shipQueue.Count == 0)
+    }
+
+    public void Watasigma()
+    {
+        if (player1shipQueue.Count == 0 && IsPlayer1Turn == true)
         {
             foreach (ShipController controller in player2shipControllers)
             {
                 player2shipQueue.Enqueue(controller);
             }
-        }
-    }
-
-    public void Watasigma()
-    {
-        if (IsPlayer1Turn && player1shipQueue.Count == 0)
-        {
             IsPlayer1Turn = false;
         }
-        else
+        if(player2shipQueue.Count == 0 && IsPlayer1Turn == false)
         {
             if (CanMoveShips)
             {
@@ -84,6 +66,10 @@ public class ControllerController : MonoBehaviour
             else
             {
                 CanMoveShips = true;
+            }
+            foreach (ShipController controller in player1shipControllers)
+            {
+                player1shipQueue.Enqueue(controller);
             }
             IsPlayer1Turn = true;
         }
