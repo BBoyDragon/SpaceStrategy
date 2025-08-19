@@ -49,7 +49,7 @@ public class ControllerController : MonoBehaviour
 
     public void Watasigma()
     {
-        if (player1shipQueue.Count == 0 && IsPlayer1Turn == true)
+        if (player1shipQueue.Count == 0 && IsPlayer1Turn == true && CanMoveShips == false)
         {
             foreach (ShipController controller in player2shipControllers)
             {
@@ -57,7 +57,7 @@ public class ControllerController : MonoBehaviour
             }
             IsPlayer1Turn = false;
         }
-        if(player2shipQueue.Count == 0 && IsPlayer1Turn == false)
+        else if(player2shipQueue.Count == 0 && IsPlayer1Turn == false && CanMoveShips == false)
         {
             if (CanMoveShips)
             {
@@ -72,6 +72,9 @@ public class ControllerController : MonoBehaviour
                 player1shipQueue.Enqueue(controller);
             }
             IsPlayer1Turn = true;
+        }
+        else if(CanMoveShips == true) {
+            CanMoveShips = false;
         }
     }
 
