@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Heal : StandardBuilding
@@ -38,11 +39,20 @@ public class Heal : StandardBuilding
             // Если объект находится в радиусе поиска, добавляем его в список
             if (distance <= searchRadius)
             {
-                foundObjects.Add(obj);
+                ShipModel shipModel = obj.GetComponent<ShipModel>();
+
+                
+                if (shipModel != null)
+                {
+                    
+                    shipModel.shield += 10;
+
+                    
+                    shipModel.shield = Mathf.Min(shipModel.shield, shipModel.shieldmax);
+                }
             }
         }
 
-        // Выводим количество найденных объектов
-        Debug.Log($"В радиусе {searchRadius} найдено объектов: {foundObjects.Count}");
+        
     }
 }

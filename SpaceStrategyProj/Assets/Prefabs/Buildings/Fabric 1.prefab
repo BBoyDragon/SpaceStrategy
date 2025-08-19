@@ -103,4 +103,6 @@ MonoBehaviour:
   capturer: 0
   timeToSpawn: 60
   currentTime: 0
-  bomber: {fileID: 2119082309582263305, guid: 8fcf6f3b4e5c26f408dda0b574794adc, type: 3}
+  bomber: {fileID: 4788390126146900242, guid: b55e3ba87df7afd44beecd7a1e537f83, type: 3}
+  controller: {fileID: 0}
+  Hod: 0

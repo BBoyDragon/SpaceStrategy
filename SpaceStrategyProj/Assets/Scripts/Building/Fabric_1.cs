@@ -14,15 +14,20 @@ public class Fabric_1 : Fabric
 
     // Параметризованный конструктор
     public Fabric_1(int initialShield, int maxShield, int regenRate, int buildingId, int owner,
-                   int spawnTime, GameObject bomberPrefab, float interval)
+                   int spawnTime, ShipController bomberPrefab, float interval)
         : base(initialShield, maxShield, regenRate, buildingId, owner, spawnTime, bomberPrefab)
     {
         spawnInterval = interval;
     }
 
      void Start()
-    {        
-      
+    {
+        controller = FindObjectOfType<ControllerController>();
+
+        if (controller == null)
+        {
+            Debug.LogError("Объект Controllercontroller не найден!");
+        }
     }
     private void Update()
     {
