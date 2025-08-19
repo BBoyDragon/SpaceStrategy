@@ -1777,6 +1777,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c2eb5ac72711d54aa878834daef6377, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1shipControllers:
+  - {fileID: 3688323}
+  - {fileID: 365158534}
+  - {fileID: 545259662}
+  player2shipControllers:
+  - {fileID: 1803528277}
+  - {fileID: 744952499}
+  - {fileID: 2060265213}
   shipControllers:
   - {fileID: 3688323}
   - {fileID: 365158534}
@@ -1787,6 +1795,8 @@ MonoBehaviour:
   input: {fileID: 3688324}
   switchshipButton: {fileID: 425146988}
   startbutton: {fileID: 330372115}
+  CanMoveShips: 0
+  IsPlayer1Turn: 1
 --- !u!4 &444425210
 Transform:
   m_ObjectHideFlags: 0
@@ -1796,7 +1806,7 @@ Transform:
   m_GameObject: {fileID: 444425208}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20, y: 0, z: 10}
+  m_LocalPosition: {x: 20, y: 0.01, z: 10.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14226,7 +14236,7 @@ Transform:
   m_GameObject: {fileID: 1803528276}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20, y: 0, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35697,12 +35707,12 @@ SceneRoots:
   - {fileID: 907059592086596069}
   - {fileID: 990720334}
   - {fileID: 1975096722}
-  - {fileID: 3688321}
   - {fileID: 1706106435}
   - {fileID: 1415165134}
+  - {fileID: 3688321}
   - {fileID: 365158533}
   - {fileID: 545259661}
+  - {fileID: 1803528282}
   - {fileID: 744952498}
   - {fileID: 2060265212}
-  - {fileID: 1803528282}
   - {fileID: 444425210}
