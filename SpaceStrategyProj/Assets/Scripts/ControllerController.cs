@@ -14,6 +14,7 @@ public class ControllerController : MonoBehaviour
     ShipController currentcontroller;
     Queue<ShipController> shipQueue = new Queue<ShipController>();
     public bool CanMoveShips = false;
+    public bool start = false;
     public void QueueMover()
     {
         if (shipQueue.Count == 0)
@@ -28,20 +29,7 @@ public class ControllerController : MonoBehaviour
     }
 
         // Start is called before the first frame update
-    void Start()
-    {
-        switchshipButton.onClick.AddListener(QueueMover);
-        startbutton.onClick.AddListener(Watasigma);
-        if (shipQueue.Count == 0)
-        {
-            foreach (ShipController controller in shipControllers)
-            {
-                shipQueue.Enqueue(controller);
-            }
-        }
-        currentcontroller = shipQueue.Dequeue();
 
-    }
 
     public void Watasigma()
     {
@@ -58,6 +46,21 @@ public class ControllerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (start)
+        {
+            
+            if (shipQueue.Count == 0)
+            {
+                foreach (ShipController controller in shipControllers)
+                {
+                    shipQueue.Enqueue(controller);
+                }
+            }
+            currentcontroller = shipQueue.Dequeue();
+            start = false;
+            switchshipButton.onClick.AddListener(QueueMover);
+            startbutton.onClick.AddListener(Watasigma);
+        }
         if (CanMoveShips)
         {
             //foreach (ShipController controller in shipControllers)

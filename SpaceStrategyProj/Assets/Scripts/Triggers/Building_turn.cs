@@ -23,6 +23,7 @@ public class Building_turn : MonoBehaviour
             {
                 // Ищем все объекты с полем Hod
                 ProcessObjectsWithHod();
+                SetControllerValue();
             }
         }
     }
@@ -42,6 +43,31 @@ public class Building_turn : MonoBehaviour
                 // Устанавливаем значение Hod в 1
                 hodField.SetValue(component, 1);
             }
+        }
+    }
+    private void SetControllerValue()
+    {
+        // Находим объект по имени
+        GameObject controllerObject = GameObject.Find("controllersigma");
+
+        if (controllerObject != null)
+        {
+            // Получаем компонент ControllerController
+            ControllerController controller = controllerObject.GetComponent<ControllerController>();
+
+            if (controller != null)
+            {
+                // Устанавливаем значение true в переменную start
+                controller.start = true;
+            }
+            else
+            {
+                Debug.LogError("Компонент ControllerController не найден на объекте controllersigma");
+            }
+        }
+        else
+        {
+            Debug.LogError("Объект controllersigma не найден на сцене");
         }
     }
 }
