@@ -34,8 +34,19 @@ public class Fabric : StandardBuilding
     public void Spawn()
     {
 
+        if (capturer == 1)
+        {
+            var a =(Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
+            controller.player1shipControllers.Add(a);
+            controller.shipControllers.Add(a);
 
-        controller.shipControllers.Add(Instantiate(bomber, transform.position+ new Vector3(13, 13, 13), Quaternion.identity));
+        }
+        if (capturer == 2)
+        {
+            var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
+            controller.player2shipControllers.Add(a);
+            controller.shipControllers.Add(a);
+        }
     }
 
     public void Timer()

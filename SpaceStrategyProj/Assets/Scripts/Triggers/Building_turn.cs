@@ -58,7 +58,7 @@ public class Building_turn : MonoBehaviour
             if (controller != null)
             {
                 // Устанавливаем значение true в переменную start
-                controller.start = true;
+                controller.IsPlayer1Turn = true;
             }
             else
             {

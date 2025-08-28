@@ -100,7 +100,7 @@ MonoBehaviour:
   shieldMax: 100
   shieldRegen: 1
   id: -1
-  capturer: 0
+  capturer: 1
   timeToSpawn: 60
   currentTime: 0
   bomber: {fileID: 4788390126146900242, guid: b55e3ba87df7afd44beecd7a1e537f83, type: 3}

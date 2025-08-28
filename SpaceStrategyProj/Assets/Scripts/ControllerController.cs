@@ -81,21 +81,7 @@ public class ControllerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsPlayer1Turn)
-        {
-            
-            if (shipQueue.Count == 0)
-            {
-                foreach (ShipController controller in shipControllers)
-                {
-                    shipQueue.Enqueue(controller);
-                }
-            }
-            currentcontroller = shipQueue.Dequeue();
-            IsPlayer1Turn = false;
-            switchshipButton.onClick.AddListener(QueueMover);
-            startbutton.onClick.AddListener(Watasigma);
-        }
+     
         if (CanMoveShips)
         {
             //foreach (ShipController controller in shipControllers)
