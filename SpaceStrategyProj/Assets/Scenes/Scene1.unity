@@ -244,7 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 1
+  energy: 100
   energyregen: 1
   shield: 1
   shieldmax: 1
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 3688322}
 --- !u!114 &3688324
 MonoBehaviour:
@@ -1312,7 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 3
+  energy: 100
   energyregen: 34
   shield: 3
   shieldmax: 4
@@ -1425,6 +1426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 365158529}
 --- !u!1 &375189573
 GameObject:
@@ -1845,7 +1847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 656
+  energy: 213
   energyregen: 674
   shield: 6
   shieldmax: 7
@@ -1958,6 +1960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 545259657}
 --- !u!1 &583816491
 GameObject:
@@ -2476,7 +2479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 7867
+  energy: 345
   energyregen: 634
   shield: 567
   shieldmax: 567
@@ -2589,6 +2592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 744952494}
 --- !u!1001 &825483390
 PrefabInstance:
@@ -14129,6 +14133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 1803528278}
 --- !u!114 &1803528278
 MonoBehaviour:
@@ -14142,7 +14147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 1
+  energy: 154
   energyregen: 1
   shield: 1
   shieldmax: 1
@@ -24949,7 +24954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 67
+  energy: 635
   energyregen: 78
   shield: 784
   shieldmax: 8
@@ -25062,6 +25067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 2060265208}
 --- !u!1001 &2099866380
 PrefabInstance:

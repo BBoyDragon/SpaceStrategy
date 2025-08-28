@@ -9,7 +9,7 @@ using System;
 public class ShipController : MonoBehaviour
 {
     public Vector3Int targetship;
-    Vector3Int currentposint;
+    public Vector3Int currentposint;
     public ShipModel model;
 
     private void Start()

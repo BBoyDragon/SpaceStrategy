@@ -15,6 +15,7 @@ public class ControllerController : MonoBehaviour
     public Button switchshipButton;
     public Button startbutton;
     ShipController currentcontroller;
+    ShipModel currentmodel;
     Queue<ShipController> player1shipQueue = new Queue<ShipController>();
     Queue<ShipController> player2shipQueue = new Queue<ShipController>();
     public bool CanMoveShips = false;
@@ -24,12 +25,34 @@ public class ControllerController : MonoBehaviour
        if (player1shipQueue.Count!=0)
        {
             currentcontroller = player1shipQueue.Dequeue();
-            currentcontroller.GetTargetLocation(input.ReadInput());
+            currentmodel = currentcontroller.model;
+            if (Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
+                Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z) <= currentmodel.energy)
+            {
+                currentcontroller.GetTargetLocation(input.ReadInput());
+                currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
+                Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
+            }
+            else
+            {
+                Debug.Log("Не удалось передвинуть корабль, недостаточно энергии!");
+            }
        }
        else if(player2shipQueue.Count!=0) 
        {
             currentcontroller = player2shipQueue.Dequeue();
-            currentcontroller.GetTargetLocation(input.ReadInput());
+            currentmodel = currentcontroller.model;
+            if (Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
+                Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z) <= currentmodel.energy)
+            {
+                currentcontroller.GetTargetLocation(input.ReadInput());
+                currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
+                Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
+            }
+            else
+            {
+                Debug.Log("Не удалось передвинуть корабль, недостаточно энергии!");
+            }
        }
     }
 
