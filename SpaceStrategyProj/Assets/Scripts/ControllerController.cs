@@ -81,6 +81,7 @@ public class ControllerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+     
         if (CanMoveShips)
         {
             //foreach (ShipController controller in shipControllers)

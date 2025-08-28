@@ -31,22 +31,7 @@ public class ShipModel : MonoBehaviour
         position = positionn;
     }
 
-    public ShipModel(int energy, int energyregen, int shield, int shieldmax,
-        int shieldregen, int speed, int warprange, int firepowermin, int firepowermax,
-        int firerange, string playername)
-    {
-        this.energy = energy;
-        this.energyregen = energyregen;
-        this.shield = shield;
-        this.shieldmax = shieldmax;
-        this.shieldregen = shieldregen;
-        this.speed = speed;
-        this.warprange = warprange;
-        this.firepowermin = firepowermin;
-        this.firepowermax = firepowermax;
-        this.firerange = firerange;
-        this.playername = playername;
-    }
+    
 
     public void Regenerate()
     {
