@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -11,9 +12,11 @@ public class ControllerController : MonoBehaviour
     public List<ShipController> player1shipControllers;
     public List<ShipController> player2shipControllers;
     public List<ShipController> shipControllers;
+    public List<ShipController> shipControllers1;
     public InputFieldReader input;
     public Button switchshipButton;
     public Button startbutton;
+    public int ships_went;
     ShipController currentcontroller;
     ShipModel currentmodel;
     Queue<ShipController> player1shipQueue = new Queue<ShipController>();
@@ -22,14 +25,14 @@ public class ControllerController : MonoBehaviour
     public bool IsPlayer1Turn = true;
     public void QueueMover()
     {
-       if (player1shipQueue.Count!=0)
-       {
-            currentcontroller = player1shipQueue.Dequeue();
-            currentmodel = currentcontroller.model;
+        if (player1shipQueue.Count != 0)
+        {
+            currentcontroller.GetTargetLocation(input.ReadInput());
             if (Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
                 Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z) <= currentmodel.energy)
             {
-                currentcontroller.GetTargetLocation(input.ReadInput());
+                currentcontroller = player1shipQueue.Dequeue();
+                currentmodel = currentcontroller.model;
                 currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
                 Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
             }
@@ -37,15 +40,15 @@ public class ControllerController : MonoBehaviour
             {
                 Debug.Log("Не удалось передвинуть корабль, недостаточно энергии!");
             }
-       }
-       else if(player2shipQueue.Count!=0) 
-       {
-            currentcontroller = player2shipQueue.Dequeue();
-            currentmodel = currentcontroller.model;
+        }
+        else if (player2shipQueue.Count != 0)
+        {
+            currentcontroller.GetTargetLocation(input.ReadInput());
             if (Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
                 Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z) <= currentmodel.energy)
             {
-                currentcontroller.GetTargetLocation(input.ReadInput());
+                currentcontroller = player2shipQueue.Dequeue();
+                currentmodel = currentcontroller.model;
                 currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) + Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) +
                 Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
             }
@@ -53,11 +56,11 @@ public class ControllerController : MonoBehaviour
             {
                 Debug.Log("Не удалось передвинуть корабль, недостаточно энергии!");
             }
-       }
+        }
     }
 
-// Start is called before the first frame update
-    void Start()
+        // Start is called before the first frame update
+        void Start()
     {
         switchshipButton.onClick.AddListener(QueueMover);
         startbutton.onClick.AddListener(Watasigma);
@@ -68,6 +71,47 @@ public class ControllerController : MonoBehaviour
                 player1shipQueue.Enqueue(controller);
             }
         }
+        currentcontroller = player1shipQueue.Dequeue();
+        currentmodel = currentcontroller.model;
+        startbutton.interactable = false;
+        StartCoroutine(MakeButtonsWorkOrNot());
+        ships_went = 0;
+        shipControllers1 = shipControllers;
+    }
+    IEnumerator MakeButtonsWorkOrNot()
+    {
+        shipControllers = shipControllers1;
+        ships_went = 0;
+        if (player1shipQueue.Count == 0)
+        {
+            yield return null;
+        }
+        switchshipButton.enabled = false;
+        startbutton.interactable = true;
+        if (player2shipQueue.Count != 0)
+        {
+            yield return null;
+        }
+        switchshipButton.enabled = true;
+        startbutton.interactable = false;
+        if (player2shipQueue.Count == 0)
+        {
+            yield return null;
+        }
+        switchshipButton.enabled = false;
+        startbutton.interactable = true;
+        if (CanMoveShips == true)
+        {
+            yield return null;
+        }
+        switchshipButton.enabled = false;
+        startbutton.interactable = false;
+        if (ships_went == 6)
+        {
+            yield return null;
+        }
+        switchshipButton.enabled = false;
+        startbutton.interactable = true;
     }
 
     public void Watasigma()
@@ -95,9 +139,10 @@ public class ControllerController : MonoBehaviour
                 player1shipQueue.Enqueue(controller);
             }
             IsPlayer1Turn = true;
-        }
-        else if(CanMoveShips == true) {
-            CanMoveShips = false;
+            if (CanMoveShips == false)
+            {
+                StartCoroutine(MakeButtonsWorkOrNot());
+            }
         }
     }
 
@@ -116,6 +161,11 @@ public class ControllerController : MonoBehaviour
             foreach(ShipController controller in shipControllers)
             {
                 controller.GetStep();
+                if(controller.targetship == controller.currentposint)
+                {
+                    ships_went += 1;
+                    shipControllers = shipControllers.Where(x => x.currentposint != x.targetship).ToList();
+                }
             }
         }
     }
