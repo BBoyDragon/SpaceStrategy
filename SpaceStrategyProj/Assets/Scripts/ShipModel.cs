@@ -10,7 +10,7 @@ public class ShipModel : MonoBehaviour
     public int shield;
     public int shieldmax;
     public int shieldregen;
-
+    public int shieldmaxmax;   
     public int speed;
     public int warprange;
 
@@ -24,11 +24,16 @@ public class ShipModel : MonoBehaviour
 
     public Vector3 position;
 
+    public Material active_material;
+    public Material unactive_material;
+    public MeshRenderer mesh;
+
     private void Start()
     {
         transform = GetComponent<Transform>();
         Vector3 positionn = transform.position;
         position = positionn;
+        mesh.material = unactive_material;
     }
 
     public ShipModel(int energy, int energyregen, int shield, int shieldmax,
@@ -51,6 +56,16 @@ public class ShipModel : MonoBehaviour
     public void Regenerate()
     {
 
+    }
+
+    public void SwapToActive()
+    {
+        mesh.material = active_material;
+    }
+
+    public void SwapToUnactive()
+    {
+        mesh.material = unactive_material;
     }
 
     public int CalculateMoveCost(int distance, bool warp)
