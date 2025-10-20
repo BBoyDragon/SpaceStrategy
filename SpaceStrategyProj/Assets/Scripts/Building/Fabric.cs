@@ -43,7 +43,7 @@ public class Fabric : StandardBuilding
         }
         if (capturer == 2)
         {
-            var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
+            var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));           
             controller.player2shipControllers.Add(a);
             controller.shipControllers.Add(a);
         }
