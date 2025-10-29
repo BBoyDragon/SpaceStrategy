@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8584853090406987789}
   - component: {fileID: 3833467793117340161}
   - component: {fileID: 6472607818846373539}
+  - component: {fileID: -6465261751134660055}
   m_Layer: 0
   m_Name: Fabric 1
   m_TagString: Untagged
@@ -96,11 +97,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c57b40a5bdfd6498149ec4d22a2467, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shield: 0
+  shield: 10
   shieldMax: 100
   shieldRegen: 1
   id: -1
-  capturer: 0
+  capturer: 1
   timeToSpawn: 60
   currentTime: 0
-  bomber: {fileID: 2119082309582263305, guid: 8fcf6f3b4e5c26f408dda0b574794adc, type: 3}
+  bomber: {fileID: 4788390126146900242, guid: b55e3ba87df7afd44beecd7a1e537f83, type: 3}
+  controller: {fileID: 0}
+  Hod: 0
+--- !u!135 &-6465261751134660055
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4969781602924469506}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}

@@ -50,8 +50,8 @@ public class ControllerController : MonoBehaviour
             {
                 player1shipQueue.Peek().model.SwapToActive();
                 energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
-                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " энергии";
-                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " энергии";
+                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
+                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
@@ -75,8 +75,8 @@ public class ControllerController : MonoBehaviour
             {
                 player2shipQueue.Peek().model.SwapToActive();
                 energytext.text = player2shipQueue.Peek().model.energy.ToString() + " энергии";
-                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " энергии";
-                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " энергии";
+                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " щита";
+                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
@@ -100,6 +100,10 @@ public class ControllerController : MonoBehaviour
         currentmodel.SwapToUnactive();
         CanMoveShips = true;
         ShipControllers = shipControllers;
+        foreach (ShipController shipcon in ShipControllers)
+        {
+            shipcon.model.StartCoroutine(shipcon.model.Fly());
+        }
         switchshipButton.interactable = false;
         startbutton.interactable = false;
         while (ships_went != 6)
@@ -113,8 +117,16 @@ public class ControllerController : MonoBehaviour
         shipControllers = ShipControllers;
         player1shipQueue.Peek().model.SwapToActive();
         energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
-        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " энергии";
-        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " энергии";
+        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
+        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+        foreach (ShipController shipcon in ShipControllers)
+        {
+            shipcon.model.Finalise();
+        }
+        foreach (StandardBuilding building in GameObject.FindObjectsOfType<StandardBuilding>())
+        {
+            building.FinaliseBuild();
+        }
     }
 
     // Start is called before the first frame update
@@ -156,8 +168,8 @@ public class ControllerController : MonoBehaviour
             myText.text = "Очередь 2 игрока";
             player2shipQueue.Peek().model.SwapToActive();
             energytext.text = player2shipQueue.Peek().model.energy.ToString() + " энергии";
-            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " энергии";
-            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " энергии";
+            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " щита";
+            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
         }
         else if(player2shipQueue.Count == 0 && IsPlayer1Turn == false && CanMoveShips == false)
         {
@@ -174,6 +186,7 @@ public class ControllerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+     
         if (CanMoveShips)
         {
             //foreach (ShipController controller in shipControllers)

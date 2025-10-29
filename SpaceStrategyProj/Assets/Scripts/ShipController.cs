@@ -37,10 +37,7 @@ public class ShipController : MonoBehaviour
 
     }
 
-    public void Fire(ShipModel targetship)
-    {
-
-    }
+    
     public void EndTurn()
     {
 
