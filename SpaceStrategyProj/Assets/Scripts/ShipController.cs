@@ -9,7 +9,7 @@ using System;
 public class ShipController : MonoBehaviour
 {
     public Vector3Int targetship;
-    Vector3Int currentposint;
+    public Vector3Int currentposint;
     public ShipModel model;
 
     private void Start()
@@ -64,12 +64,12 @@ public class ShipController : MonoBehaviour
         return new Vector3Int(xpos, ypos, zpos);
     }
 
-    private Vector3 ToWorldCoordinates(Vector3Int coordinates)
+    public Vector3 ToWorldCoordinates(Vector3Int coordinates)
     {
         return new (coordinates.x *10, coordinates.y * 10, coordinates.z * 10);
     }
 
-    private Vector3Int ToGameCoordinates(Vector3 coordinates)
+    public Vector3Int ToGameCoordinates(Vector3 coordinates)
     {
         return new(Convert.ToInt32(coordinates.x / 10), Convert.ToInt32(coordinates.y / 10), Convert.ToInt32(coordinates.z / 10));
     }

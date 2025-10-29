@@ -12,6 +12,7 @@ public class StandardBuilding : MonoBehaviour
     public int shieldRegen;
     public int id;
     public int capturer = 0; // 0 - никто, 1 - первый игрок, 2 - второй игрок
+    public int potentialdamage = 0;
 
     // Конструктор по умолчанию
     public StandardBuilding()
@@ -50,6 +51,17 @@ public class StandardBuilding : MonoBehaviour
 
     public void Regenerate()
     {
-        shield = Mathf.Min(shieldMax, shield + shieldRegen);
+        potentialdamage -= shieldRegen;
+    }
+
+    public void FinaliseBuild()
+    {
+        shield -= potentialdamage;
+        shield = Mathf.Min(shield, shieldMax);
+        potentialdamage = 0;
+        if (shield == 0)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

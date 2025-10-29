@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1193458368648883291}
   - component: {fileID: 687615022709602749}
   - component: {fileID: 4788390126146900242}
-  - component: {fileID: -599004263707497060}
   m_Layer: 0
   m_Name: blue1
   m_TagString: Untagged
@@ -122,18 +121,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energy: 1
+  AF: 0
+  energy: 100
   energyregen: 1
   shield: 100
   shieldmax: 100
   shieldregen: 1
   capturer: 2
+  controller: {fileID: 0}
   speed: 1
   warprange: 1
   firepowermin: 1
   firepowermax: 5
   firerange: 1
   playername: fsdtgfg
+  active_material: {fileID: 2100000, guid: 730cae985978cab478b862afd30ffc86, type: 2}
+  unactive_material: {fileID: 2100000, guid: f7c5b04738034c4468a926ddaf5dfcaa, type: 2}
+  mesh: {fileID: 6282363368508705848}
   position: {x: 0, y: 0, z: 0}
   searchRadius: 100
   targetComponents:
@@ -153,33 +157,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetship: {x: 0, y: 0, z: 0}
+  currentposint: {x: 0, y: 0, z: 0}
   model: {fileID: 687615022709602749}
---- !u!114 &-599004263707497060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8776639504977712387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93c9b7771bef57445a0cd2f1e332a673, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  energy: 0
-  energyregen: 0
-  shield: 0
-  shieldmax: 0
-  shieldregen: 0
-  capturer: 0
-  speed: 0
-  warprange: 0
-  firepowermin: 0
-  firepowermax: 0
-  firerange: 0
-  playername: 
-  position: {x: 0, y: 0, z: 0}
-  searchRadius: 0
-  targetComponents: []
-  move_sh: 0
-  controllerControllerl: {fileID: 0}

@@ -22,10 +22,17 @@ public class ShipModel : MonoBehaviour
     public int firepowermin;
     public int firepowermax;
     public int firerange;
+    public int potentialdamage = 0;
 
     public string playername;
 
     new Transform transform;
+
+    public Material active_material;
+    public Material unactive_material;
+    public MeshRenderer mesh;
+
+    public bool readytofinalize = false;
 
     public Vector3 position;
     public int searchRadius = 100;
@@ -131,11 +138,7 @@ public class ShipModel : MonoBehaviour
                     if (shipModel.capturer != capturer)
                     {
                         Debug.Log("X");
-                        shipModel.shield = Mathf.Max(0, shipModel.shield - firepowermax);
-                        if (shipModel.shield == 0)
-                        {
-                            foundObjects[i].SetActive(false);
-                        }
+                        shipModel.potentialdamage += firepowermax;
                         break;
 
                     }
@@ -145,11 +148,7 @@ public class ShipModel : MonoBehaviour
                     if (standardBuilding.capturer != capturer)
                     {
                         Debug.Log("Y");
-                        standardBuilding.shield = Mathf.Max(0, standardBuilding.shield - firepowermax);
-                        if (standardBuilding.shield == 0)
-                        {
-                            foundObjects[i].SetActive(false);
-                        }
+                        standardBuilding.potentialdamage += firepowermax;
                         break;
                     }
                 }
@@ -158,81 +157,57 @@ public class ShipModel : MonoBehaviour
     }
 
 
-    public bool CMS()
+    public IEnumerator Fly()
     {
-        
-        GameObject controllerObject = GameObject.Find("controllersigma");
-        bool A = false;
-
-        if (controllerObject != null)
-        {
-
-            ControllerController controller = controllerObject.GetComponent<ControllerController>();
-
-
-            if (controller != null)
-            {
-
-                 A = controller.CanMoveShips;
-
-                
-
-            }
-        }
-        return A;
-    }
-    IEnumerator Fly()
-    {
-        AF = true;
-        Debug.Log("B");
-        while (CMS()) {
-
-            yield return new WaitForSeconds(0.5f);
-        }
-        
-        Debug.Log(CMS());
-        Debug.Log("D");
-        AF = false;
         Fire();
         ProcessObjectsWithHod();
         SetControllerValue();
         Regenerate();
+        readytofinalize = true;
+        StopCoroutine(Fly());
+        yield return null;
     }
     private void Start()
     {
         transform = GetComponent<Transform>();
         Vector3 positionn = transform.position;
         position = positionn;
+        mesh.material = unactive_material;
     }
 
     private void Update()
     {
-        
-        if (CMS() && !AF)
-        {
-            Debug.Log("A");
-            flyCoroutine = StartCoroutine(Fly());
-            
-        }
-        
     }
 
     public void Regenerate()
     {
-        shield += shieldregen;
+        potentialdamage -= shieldregen;
+        energy += energyregen;
     }
     
     public void ApplyDamage(int damage)
     {
     }
 
+    public void SwapToActive()
+    {
+        mesh.material = active_material;
+    }
+
+    public void SwapToUnactive()
+    {
+        mesh.material = unactive_material;
+    }
+
+    public void Finalise()
+    {
+        shield -= potentialdamage;
+        shield = Mathf.Min(shield, shieldmax);
+        potentialdamage = 0;
+        if (shield <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+        readytofinalize = false;
+    }
 }
-
-     
-
-    
-
-     
-
-
-
