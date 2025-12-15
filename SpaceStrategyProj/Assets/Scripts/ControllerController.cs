@@ -17,12 +17,15 @@ public class ControllerController : MonoBehaviour
     public List<ShipController> ShipControllers;
     public InputFieldReader input;
     public Button switchshipButton;
+    public GameObject cubePrefab;
     public Button startbutton;
+    public Button center_camera;
     public TextMeshProUGUI myText;
     public TextMeshProUGUI shipstext;
     public TextMeshProUGUI energytext;
     public TextMeshProUGUI shieldtext;
     public TextMeshProUGUI firepowertext;
+    public GameObject cur_camera;
     ShipController currentcontroller;
     ShipModel currentmodel;
     Queue<ShipController> player1shipQueue = new Queue<ShipController>();
@@ -106,7 +109,7 @@ public class ControllerController : MonoBehaviour
         }
         switchshipButton.interactable = false;
         startbutton.interactable = false;
-        while (ships_went != 6)
+        while (ships_went != ShipControllers.Count)
         {
             yield return null;
         }
@@ -134,6 +137,7 @@ public class ControllerController : MonoBehaviour
     {
         switchshipButton.onClick.AddListener(QueueMover);
         startbutton.onClick.AddListener(Watasigma);
+        center_camera.onClick.AddListener(Senter_Game_Camera);
         if (player1shipQueue.Count == 0)
         {
             foreach (ShipController controller in player1shipControllers)
@@ -152,6 +156,10 @@ public class ControllerController : MonoBehaviour
         energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
         shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
         firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+        for (int i = 0; i <= 100; i += 10) 
+            for (int j = 0; j <= 100; j += 10)
+                for (int k = 0; k <= 100; k += 10)
+                    Instantiate(cubePrefab, new Vector3(i,j,k), Quaternion.identity);
     }
 
     public void Watasigma()
@@ -181,6 +189,12 @@ public class ControllerController : MonoBehaviour
             myText.text = "Корабли летят";
             StartCoroutine(WaitForShips());
         }
+    }
+
+    public void Senter_Game_Camera()
+    {
+        cur_camera.transform.position = currentmodel.transform.position;
+        cur_camera.transform.position = new Vector3(cur_camera.transform.position.x, cur_camera.transform.position.y + 2, cur_camera.transform.position.z);
     }
 
     // Update is called once per frame
