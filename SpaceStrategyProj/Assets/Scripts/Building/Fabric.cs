@@ -9,7 +9,8 @@ public class Fabric : StandardBuilding
     public int timeToSpawn;
     public int currentTime;
     public ShipController bomber;
-    public ControllerController controller; 
+    public ControllerController controller;
+    int hod = 1;
 
     // Конструктор по умолчанию
     public Fabric() : base()
@@ -34,19 +35,36 @@ public class Fabric : StandardBuilding
     public void Spawn()
     {
 
-        if (capturer == 1)
+        if (hod == timeToSpawn)
         {
-            var a =(Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
-            controller.player1shipControllers.Add(a);
-            controller.shipControllers.Add(a);
+            if (capturer == 1)
+            {
+                var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
+                controller.player1shipControllers.Add(a);
+                controller.ShipControllers.Add(a);
+                controller.shipControllers.Add(a);
+                a.currentposint = a.ToGameCoordinates(a.model.transform.position);
+                a.targetship = a.ToGameCoordinates(a.model.transform.position);
+                a.model.StartCoroutine(a.model.Fly());
 
+            }
+            if (capturer == 2)
+            {
+                var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
+                controller.player2shipControllers.Add(a);
+                controller.ShipControllers.Add(a);
+                controller.shipControllers.Add(a);
+                a.currentposint = a.ToGameCoordinates(a.model.transform.position);
+                a.targetship = a.ToGameCoordinates(a.model.transform.position);
+                a.model.StartCoroutine(a.model.Fly());
+            }
+            hod = 1;
         }
-        if (capturer == 2)
+        else
         {
-            var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));           
-            controller.player2shipControllers.Add(a);
-            controller.shipControllers.Add(a);
+            hod += 1;
         }
+
     }
 
     public void Timer()

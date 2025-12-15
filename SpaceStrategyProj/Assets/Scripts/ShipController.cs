@@ -46,6 +46,7 @@ public class ShipController : MonoBehaviour
     
     public void Step()
     {
+        
         if (targetship == null || currentposint == targetship) 
         {
             return;
@@ -56,6 +57,7 @@ public class ShipController : MonoBehaviour
 
     private Vector3Int GetStepTarget(Vector3Int current, Vector3Int target)
     {
+        
         int xpos;
         int ypos;
         int zpos;

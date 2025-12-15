@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Fabric_1 : Fabric
 {
-    public int Hod=0;
+    public int Hod = 0;
     // Дополнительные поля, если нужны
     private float spawnInterval;
 

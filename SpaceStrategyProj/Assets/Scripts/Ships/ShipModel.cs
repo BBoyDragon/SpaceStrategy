@@ -18,6 +18,11 @@ public class ShipModel : MonoBehaviour
     public ControllerController controller;
     public int speed;
     public int warprange;
+    public GameObject fire_sphere;
+    public GameObject projectilePrefab; 
+    public float projectileSpeed = 10f;   
+    
+    private GameObject currentProjectile;   
 
     public int firepowermin;
     public int firepowermax;
@@ -39,7 +44,7 @@ public class ShipModel : MonoBehaviour
     public bool readytofinalize = false;
 
     public Vector3 position;
-    public int searchRadius = 100;
+    
     public List<string> targetComponents = new List<string>
     {
         "ShipModel",
@@ -48,44 +53,45 @@ public class ShipModel : MonoBehaviour
     };
     private void ProcessObjectsWithHod()
     {
-        // Получаем все компоненты на сцене
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Component[] allComponents = FindObjectsOfType<Component>();
 
         foreach (Component component in allComponents)
         {
-            // Проверяем наличие поля Hod
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ Hod
             FieldInfo hodField = component.GetType().GetField("Hod");
 
             if (hodField != null && hodField.FieldType == typeof(int))
             {
-                // Устанавливаем значение Hod в 1
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Hod пїЅ 1
                 hodField.SetValue(component, 1);
             }
         }
     }
     private void SetControllerValue()
     {
-        // Находим объект по имени
+        
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         GameObject controllerObject = GameObject.Find("controllersigma");
 
         if (controllerObject != null)
         {
-            // Получаем компонент ControllerController
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ControllerController
             ControllerController controller = controllerObject.GetComponent<ControllerController>();
 
             if (controller != null)
             {
-                // Устанавливаем значение true в переменную start
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ true пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ start
                 controller.IsPlayer1Turn = true;
             }
             else
             {
-                Debug.LogError("Компонент ControllerController не найден на объекте controllersigma");
+                Debug.LogError("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ControllerController пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ controllersigma");
             }
         }
         else
         {
-            Debug.LogError("Объект controllersigma не найден на сцене");
+            Debug.LogError("пїЅпїЅпїЅпїЅпїЅпїЅ controllersigma пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
         }
     }
     public int CalculateMoveCost(int distance, bool warp)
@@ -100,40 +106,43 @@ public class ShipModel : MonoBehaviour
     {
         Debug.Log("C");
         GameObject controllerObject = GameObject.Find("controllersigma");
-        // Получаем все объекты в радиусе
-        Collider[] hits = Physics.OverlapSphere(transform.position, searchRadius);
 
-        // Список найденных объектов
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        Collider[] hits = Physics.OverlapSphere(transform.position, firerange);
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         List<GameObject> foundObjects = new List<GameObject>();
 
-        // Проверяем каждый объект
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         foreach (Collider hit in hits)
         {
             GameObject obj = hit.gameObject;
 
-            // Проверяем наличие любого из целевых компонентов по имени
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             foreach (string componentName in targetComponents)
             {
-                // Получаем компонент по имени
                 Component component = obj.GetComponent(componentName);
-
                 if (component != null)
                 {
                     foundObjects.Add(obj);
-                    break; // Прекращаем проверку, если компонент найден
+                    break;
                 }
             }
         }
 
-        // Если объекты найдены
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (foundObjects.Count > 0)
         {
-            // Находим ближайший объект
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             GameObject closestObject = foundObjects
                 .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position))
                 .First();
 
-            for (int i  = 0;  i < foundObjects.Count; i += 1)
+          
+            
+
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
+            for (int i = 0; i < foundObjects.Count; i++)
             {
                 if (foundObjects[i].TryGetComponent(out ShipModel shipModel))
                 {
@@ -143,8 +152,19 @@ public class ShipModel : MonoBehaviour
                     {
                         Debug.Log("X");
                         shipModel.potentialdamage += firepowermax;
+                        if (projectilePrefab != null)
+                        {
+                            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+                            currentProjectile = Instantiate(
+                                projectilePrefab,
+                                transform.position,
+                                Quaternion.identity
+                            );
+                            currentProjectile.gameObject.transform.LookAt(shipModel.transform);
+                            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+                            StartCoroutine(MoveProjectileToTarget(currentProjectile, shipModel.gameObject));
+                        }
                         break;
-
                     }
                 }
                 else if (foundObjects[i].TryGetComponent(out StandardBuilding standardBuilding))
@@ -153,6 +173,19 @@ public class ShipModel : MonoBehaviour
                     {
                         Debug.Log("Y");
                         standardBuilding.potentialdamage += firepowermax;
+                        if (projectilePrefab != null)
+                        {
+                            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
+                            currentProjectile = Instantiate(
+                                projectilePrefab,
+                                transform.position,
+                                Quaternion.identity
+                            );
+                            currentProjectile.gameObject.transform.LookAt(standardBuilding.transform);
+
+                            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
+                            StartCoroutine(MoveProjectileToTarget(currentProjectile, standardBuilding.gameObject));
+                        }
                         break;
                     }
                 }
@@ -161,6 +194,41 @@ public class ShipModel : MonoBehaviour
     }
 
 
+    private IEnumerator MoveProjectileToTarget(GameObject projectile, GameObject target)
+    {
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
+        Vector3 startPosition = projectile.transform.position;
+        Vector3 targetPosition = target.transform.position;
+        float distance = Vector3.Distance(startPosition, targetPosition);
+        float duration = distance / projectileSpeed; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / duration);
+            projectile.transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            yield return null;
+        }
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        OnProjectileHit(target, projectile);
+    }
+    private void OnProjectileHit(GameObject target, GameObject projectile)
+    {
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ.)
+        Destroy(projectile); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        /*if (target.TryGetComponent(out ShipModel ship))
+        {
+            ship.potentialdamage += firepowermax;
+        }
+        else if (target.TryGetComponent(out StandardBuilding building))
+        {
+            building.potentialdamage += firepowermax;
+        }*/
+    }
     public IEnumerator Fly()
     {
         Fire();
@@ -173,10 +241,13 @@ public class ShipModel : MonoBehaviour
     }
     private void Start()
     {
+        projectileSpeed *= Time.deltaTime;
         transform = GetComponent<Transform>();
         Vector3 positionn = transform.position;
         position = positionn;
         mesh.material = unactive_material;
+        fire_sphere.transform.localScale = new Vector3(firerange, firerange, firerange);
+
     }
 
     private void Update()
@@ -196,11 +267,13 @@ public class ShipModel : MonoBehaviour
     public void SwapToActive()
     {
         cur_filter.mesh = mesh_2;
+        fire_sphere.SetActive(true);
     }
 
     public void SwapToUnactive()
     {
         cur_filter.mesh = mesh_1;
+        fire_sphere.SetActive(false);
     }
 
     public void Finalise()
@@ -210,6 +283,7 @@ public class ShipModel : MonoBehaviour
         potentialdamage = 0;
         if (shield <= 0)
         {
+
             gameObject.SetActive(false);
         }
         readytofinalize = false;

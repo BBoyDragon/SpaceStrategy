@@ -63,7 +63,8 @@ public class StandardBuilding : MonoBehaviour
         potentialdamage = 0;
         if (shield == 0)
         {
-            gameObject.SetActive(false);
+            if (capturer == 1) capturer = 0;
+            else capturer = 1;
         }
         ships_capturing = Physics.OverlapSphere(this.transform.position, 15f);
         foreach (Collider collider in ships_capturing)

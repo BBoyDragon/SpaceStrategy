@@ -11,6 +11,7 @@ using JetBrains.Annotations;
 
 public class ControllerController : MonoBehaviour
 {
+
     public List<ShipController> player1shipControllers;
     public List<ShipController> player2shipControllers;
     public List<ShipController> shipControllers;
@@ -33,64 +34,105 @@ public class ControllerController : MonoBehaviour
     public bool CanMoveShips = false;
     public bool IsPlayer1Turn = true;
     public int ships_went;
+
+    public int count_active_ships()
+    {
+        int count_of_ships = 0;
+        for (int i = 0; i < ShipControllers.Count(); i++)
+        {
+            if (ShipControllers[i].gameObject.activeSelf)
+            {
+                count_of_ships++;
+            }
+        }
+        return count_of_ships;
+    }
+
+    public bool full_disactive(Queue<ShipController> Sobludayu_kod_staylik)
+    {
+        bool ans = true;
+        foreach (ShipController a in Sobludayu_kod_staylik) {
+            if (a.gameObject.activeSelf) { ans = false; break; }
+        }
+        return ans;
+    }
     public void QueueMover()
     {
-       if (player1shipQueue.Count!=0)
+       if (player1shipQueue.Count != 0 && !full_disactive(player1shipQueue))
        {
+            while (!player1shipQueue.Peek().gameObject.activeSelf)
+            {
+                currentcontroller = player1shipQueue.Dequeue();
+            }
             ShipController shiptemp = player1shipQueue.Peek();
+            
             shiptemp.GetTargetLocation(input.ReadInput());
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "Не удалось передвинуть корабль, недостаточно энергии!";
+                shipstext.text = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
                 return;
             }
             shipstext.text = "";
             currentcontroller = player1shipQueue.Dequeue();
+            
             currentmodel = currentcontroller.model;
             currentmodel.SwapToUnactive();
-            if (player1shipQueue.Count != 0) 
+
+            if (player1shipQueue.Count != 0 && !full_disactive(player1shipQueue)) 
             {
+                while (!player1shipQueue.Peek().gameObject.activeSelf)
+                {
+                    player1shipQueue.Dequeue();
+                }
                 player1shipQueue.Peek().model.SwapToActive();
-                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
-                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
-                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " пїЅпїЅпїЅпїЅ";
+                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
             Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
        }
-       else if(player2shipQueue.Count!=0) 
+       else if(player2shipQueue.Count != 0 && !full_disactive(player2shipQueue)) 
        {
+            while (!player2shipQueue.Peek().gameObject.activeSelf)
+            {
+                currentcontroller = player2shipQueue.Dequeue();
+            }
             ShipController shiptemp = player2shipQueue.Peek();
             shiptemp.GetTargetLocation(input.ReadInput());
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "Не удалось передвинуть корабль, недостаточно энергии!";
+                shipstext.text = "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
                 return;
             }
             shipstext.text = "";
             currentcontroller = player2shipQueue.Dequeue();
             currentmodel = currentcontroller.model;
             currentmodel.SwapToUnactive();
-            if (player2shipQueue.Count != 0)
+            if (player2shipQueue.Count != 0 && !full_disactive(player2shipQueue))
             {
+                while (!player2shipQueue.Peek().gameObject.activeSelf)
+                {
+                    player2shipQueue.Dequeue();
+                }
                 player2shipQueue.Peek().model.SwapToActive();
-                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " энергии";
-                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " щита";
-                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " пїЅпїЅпїЅпїЅ";
+                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
             Mathf.Abs(currentcontroller.targetship.z - currentcontroller.currentposint.z);
        }
-        if (player1shipQueue.Count == 0 && IsPlayer1Turn == true)
+        if ((player1shipQueue.Count == 0 || full_disactive(player1shipQueue)) && IsPlayer1Turn == true)
         {
             switchshipButton.interactable = false;
             startbutton.interactable = true;
         }
-        else if (player2shipQueue.Count == 0 && IsPlayer1Turn == false) 
+        else if ((player2shipQueue.Count == 0 || full_disactive(player2shipQueue)) && IsPlayer1Turn == false) 
         {
             switchshipButton.interactable = false;
             startbutton.interactable = true;
@@ -103,25 +145,33 @@ public class ControllerController : MonoBehaviour
         currentmodel.SwapToUnactive();
         CanMoveShips = true;
         ShipControllers = shipControllers;
-        foreach (ShipController shipcon in ShipControllers)
-        {
-            shipcon.model.StartCoroutine(shipcon.model.Fly());
-        }
+        
         switchshipButton.interactable = false;
         startbutton.interactable = false;
-        while (ships_went != ShipControllers.Count)
+        while (ships_went != count_active_ships())
         {
             yield return null;
+        }
+        foreach (ShipController shipcon in ShipControllers)
+        {
+            if (shipcon.gameObject.activeSelf)
+            {
+                shipcon.model.StartCoroutine(shipcon.model.Fly());
+            }
         }
         switchshipButton.interactable = true;
         startbutton.interactable = false;
         CanMoveShips = false;
-        myText.text = "Очередь 1 игрока";
+        myText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅ";
         shipControllers = ShipControllers;
+        while (!player1shipQueue.Peek().gameObject.activeSelf)
+        {
+            player1shipQueue.Dequeue();
+        }
         player1shipQueue.Peek().model.SwapToActive();
-        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
-        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
-        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " пїЅпїЅпїЅпїЅ";
+        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
         foreach (ShipController shipcon in ShipControllers)
         {
             shipcon.model.Finalise();
@@ -150,12 +200,16 @@ public class ControllerController : MonoBehaviour
         switchshipButton.interactable = true;
         startbutton.interactable = false;
         CanMoveShips = false;
-        myText.text = "Очередь 1 игрока";
+        myText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅ";
         shipstext.text = energytext.text = shieldtext.text = firepowertext.text = "";
+        while (!player1shipQueue.Peek().gameObject.activeSelf)
+        {
+            player1shipQueue.Dequeue();
+        }
         player1shipQueue.Peek().model.SwapToActive();
-        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
-        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита";
-        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " пїЅпїЅпїЅпїЅ";
+        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
         for (int i = 0; i <= 100; i += 10) 
             for (int j = 0; j <= 100; j += 10)
                 for (int k = 0; k <= 100; k += 10)
@@ -164,7 +218,7 @@ public class ControllerController : MonoBehaviour
 
     public void Watasigma()
     {
-        if (player1shipQueue.Count == 0 && IsPlayer1Turn == true && CanMoveShips == false)
+        if (IsPlayer1Turn == true && CanMoveShips == false)
         {
             foreach (ShipController controller in player2shipControllers)
             {
@@ -173,20 +227,24 @@ public class ControllerController : MonoBehaviour
             IsPlayer1Turn = false;
             switchshipButton.interactable = true;
             startbutton.interactable = false;
-            myText.text = "Очередь 2 игрока";
+            myText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅ";
+            while (!player2shipQueue.Peek().gameObject.activeSelf)
+            {
+                player2shipQueue.Dequeue();
+            }
             player2shipQueue.Peek().model.SwapToActive();
-            energytext.text = player2shipQueue.Peek().model.energy.ToString() + " энергии";
-            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " щита";
-            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " огневой мощи";
+            energytext.text = player2shipQueue.Peek().model.energy.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
+            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " пїЅпїЅпїЅпїЅ";
+            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ";
         }
-        else if(player2shipQueue.Count == 0 && IsPlayer1Turn == false && CanMoveShips == false)
+        else if(IsPlayer1Turn == false && CanMoveShips == false)
         {
             foreach (ShipController controller in player1shipControllers)
             {
                 player1shipQueue.Enqueue(controller);
             }
             IsPlayer1Turn = true;
-            myText.text = "Корабли летят";
+            myText.text = "пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ";
             StartCoroutine(WaitForShips());
         }
     }
