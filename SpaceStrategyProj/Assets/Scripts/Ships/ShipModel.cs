@@ -28,6 +28,10 @@ public class ShipModel : MonoBehaviour
 
     new Transform transform;
 
+    public MeshFilter cur_filter;
+    public Mesh mesh_1;
+    public Mesh mesh_2;
+
     public Material active_material;
     public Material unactive_material;
     public MeshRenderer mesh;
@@ -191,12 +195,12 @@ public class ShipModel : MonoBehaviour
 
     public void SwapToActive()
     {
-        mesh.material = active_material;
+        cur_filter.mesh = mesh_2;
     }
 
     public void SwapToUnactive()
     {
-        mesh.material = unactive_material;
+        cur_filter.mesh = mesh_1;
     }
 
     public void Finalise()
