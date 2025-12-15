@@ -10,6 +10,7 @@ public class Building_turn : MonoBehaviour
     private void Start()
     {
         sphereCollider = GetComponent<Collider>();
+        Debug.Log("skfurehvuifhvuivuhirbhfkfndkjbfdjhv fdu vfjvbvvh b g gv vfj bfhj vfh  f");
     }
 
     private void Update()

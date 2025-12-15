@@ -21,6 +21,7 @@ public class ShipController : MonoBehaviour
     private void Update()
     {
         model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),5f*Time.deltaTime);
+        
     }
     public void GetTargetLocation(Vector3Int inputik)
     {
@@ -45,6 +46,7 @@ public class ShipController : MonoBehaviour
     
     public void Step()
     {
+        
         if (targetship == null || currentposint == targetship) 
         {
             return;
@@ -55,6 +57,7 @@ public class ShipController : MonoBehaviour
 
     private Vector3Int GetStepTarget(Vector3Int current, Vector3Int target)
     {
+        
         int xpos;
         int ypos;
         int zpos;
