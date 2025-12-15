@@ -33,6 +33,10 @@ public class ShipModel : MonoBehaviour
 
     new Transform transform;
 
+    public MeshFilter cur_filter;
+    public Mesh mesh_1;
+    public Mesh mesh_2;
+
     public Material active_material;
     public Material unactive_material;
     public MeshRenderer mesh;
@@ -49,17 +53,17 @@ public class ShipModel : MonoBehaviour
     };
     private void ProcessObjectsWithHod()
     {
-        // Получаем все компоненты на сцене
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Component[] allComponents = FindObjectsOfType<Component>();
 
         foreach (Component component in allComponents)
         {
-            // Проверяем наличие поля Hod
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ Hod
             FieldInfo hodField = component.GetType().GetField("Hod");
 
             if (hodField != null && hodField.FieldType == typeof(int))
             {
-                // Устанавливаем значение Hod в 1
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Hod пїЅ 1
                 hodField.SetValue(component, 1);
             }
         }
@@ -67,27 +71,27 @@ public class ShipModel : MonoBehaviour
     private void SetControllerValue()
     {
         
-        // Находим объект по имени
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         GameObject controllerObject = GameObject.Find("controllersigma");
 
         if (controllerObject != null)
         {
-            // Получаем компонент ControllerController
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ControllerController
             ControllerController controller = controllerObject.GetComponent<ControllerController>();
 
             if (controller != null)
             {
-                // Устанавливаем значение true в переменную start
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ true пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ start
                 controller.IsPlayer1Turn = true;
             }
             else
             {
-                Debug.LogError("Компонент ControllerController не найден на объекте controllersigma");
+                Debug.LogError("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ControllerController пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ controllersigma");
             }
         }
         else
         {
-            Debug.LogError("Объект controllersigma не найден на сцене");
+            Debug.LogError("пїЅпїЅпїЅпїЅпїЅпїЅ controllersigma пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ");
         }
     }
     public int CalculateMoveCost(int distance, bool warp)
@@ -103,18 +107,18 @@ public class ShipModel : MonoBehaviour
         Debug.Log("C");
         GameObject controllerObject = GameObject.Find("controllersigma");
 
-        // Получаем все объекты в радиусе
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Collider[] hits = Physics.OverlapSphere(transform.position, firerange);
 
-        // Список найденных объектов
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         List<GameObject> foundObjects = new List<GameObject>();
 
-        // Проверяем каждый объект
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         foreach (Collider hit in hits)
         {
             GameObject obj = hit.gameObject;
 
-            // Проверяем наличие любого из целевых компонентов по имени
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             foreach (string componentName in targetComponents)
             {
                 Component component = obj.GetComponent(componentName);
@@ -126,10 +130,10 @@ public class ShipModel : MonoBehaviour
             }
         }
 
-        // Если объекты найдены
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (foundObjects.Count > 0)
         {
-            // Находим ближайший объект
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             GameObject closestObject = foundObjects
                 .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position))
                 .First();
@@ -137,7 +141,7 @@ public class ShipModel : MonoBehaviour
           
             
 
-            // Остальная логика нанесения урона (как в оригинале)
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
             for (int i = 0; i < foundObjects.Count; i++)
             {
                 if (foundObjects[i].TryGetComponent(out ShipModel shipModel))
@@ -150,14 +154,14 @@ public class ShipModel : MonoBehaviour
                         shipModel.potentialdamage += firepowermax;
                         if (projectilePrefab != null)
                         {
-                            Debug.Log("Заспавнил");
+                            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
                             currentProjectile = Instantiate(
                                 projectilePrefab,
                                 transform.position,
                                 Quaternion.identity
                             );
                             currentProjectile.gameObject.transform.LookAt(shipModel.transform);
-                            // Запускаем движение снаряда к цели
+                            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
                             StartCoroutine(MoveProjectileToTarget(currentProjectile, shipModel.gameObject));
                         }
                         break;
@@ -171,7 +175,7 @@ public class ShipModel : MonoBehaviour
                         standardBuilding.potentialdamage += firepowermax;
                         if (projectilePrefab != null)
                         {
-                            Debug.Log("Заспавнил");
+                            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
                             currentProjectile = Instantiate(
                                 projectilePrefab,
                                 transform.position,
@@ -179,7 +183,7 @@ public class ShipModel : MonoBehaviour
                             );
                             currentProjectile.gameObject.transform.LookAt(standardBuilding.transform);
 
-                            // Запускаем движение снаряда к цели
+                            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
                             StartCoroutine(MoveProjectileToTarget(currentProjectile, standardBuilding.gameObject));
                         }
                         break;
@@ -192,11 +196,11 @@ public class ShipModel : MonoBehaviour
 
     private IEnumerator MoveProjectileToTarget(GameObject projectile, GameObject target)
     {
-        Debug.Log("Сработал енум");
+        Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ");
         Vector3 startPosition = projectile.transform.position;
         Vector3 targetPosition = target.transform.position;
         float distance = Vector3.Distance(startPosition, targetPosition);
-        float duration = distance / projectileSpeed; // Время полёта
+        float duration = distance / projectileSpeed; // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         float elapsedTime = 0f;
 
         while (elapsedTime < duration)
@@ -207,15 +211,15 @@ public class ShipModel : MonoBehaviour
             yield return null;
         }
 
-        // Снаряд достиг цели — можно добавить эффект взрыва или уничтожить
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         OnProjectileHit(target, projectile);
     }
     private void OnProjectileHit(GameObject target, GameObject projectile)
     {
-        // Здесь можно добавить эффекты (взрыв, звук и т.д.)
-        Destroy(projectile); // Уничтожаем снаряд
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ.)
+        Destroy(projectile); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-        // Дополнительно: можно нанести урон сразу при попадании
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         /*if (target.TryGetComponent(out ShipModel ship))
         {
             ship.potentialdamage += firepowermax;
@@ -262,14 +266,13 @@ public class ShipModel : MonoBehaviour
 
     public void SwapToActive()
     {
-        
-        mesh.material = active_material;
+        cur_filter.mesh = mesh_2;
         fire_sphere.SetActive(true);
     }
 
     public void SwapToUnactive()
     {
-        mesh.material = unactive_material;
+        cur_filter.mesh = mesh_1;
         fire_sphere.SetActive(false);
     }
 

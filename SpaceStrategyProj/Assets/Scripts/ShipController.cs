@@ -20,8 +20,8 @@ public class ShipController : MonoBehaviour
 
     private void Update()
     {
-        model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),5f*Time.deltaTime);
-        
+        model.transform.position = Vector3.MoveTowards(model.transform.position, ToWorldCoordinates(currentposint),7.5f*Time.deltaTime);
+        model.transform.LookAt(ToWorldCoordinates(targetship));
     }
     public void GetTargetLocation(Vector3Int inputik)
     {

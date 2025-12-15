@@ -13,6 +13,7 @@ public class StandardBuilding : MonoBehaviour
     public int id;
     public int capturer = 0; // 0 - никто, 1 - первый игрок, 2 - второй игрок
     public int potentialdamage = 0;
+    Collider[] ships_capturing;
 
     // Конструктор по умолчанию
     public StandardBuilding()
@@ -56,6 +57,7 @@ public class StandardBuilding : MonoBehaviour
 
     public void FinaliseBuild()
     {
+        ShipModel foundmodel = null;
         shield -= potentialdamage;
         shield = Mathf.Min(shield, shieldMax);
         potentialdamage = 0;
@@ -63,6 +65,18 @@ public class StandardBuilding : MonoBehaviour
         {
             if (capturer == 1) capturer = 0;
             else capturer = 1;
+        }
+        ships_capturing = Physics.OverlapSphere(this.transform.position, 15f);
+        foreach (Collider collider in ships_capturing)
+        {
+            if (collider.TryGetComponent<ShipModel>(out foundmodel))
+            {
+                break;
+            }
+        }
+        if (foundmodel != null)
+        {
+            capturer = foundmodel.GetComponent<ShipModel>().capturer;
         }
     }
 }
