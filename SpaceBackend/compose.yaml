@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: space_postgres
+    environment:
+      POSTGRES_DB: spacedb
+      POSTGRES_USER: spaceuser
+      POSTGRES_PASSWORD: spacepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spaceuser -d spacedb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  spacebackend:
+    image: spacebackend
+    build:
+      context: .
+      dockerfile: SpaceBackend/Dockerfile
+    container_name: space_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=spacedb;Username=spaceuser;Password=spacepass
+
+volumes:
+  postgres_data:
