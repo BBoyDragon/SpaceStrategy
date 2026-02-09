@@ -70,7 +70,7 @@ public class ControllerController : MonoBehaviour
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "�� ������� ����������� �������, ������������ �������!";
+                shipstext.text = "Not enough energy, try to reduce the range!";
                 return;
             }
             shipstext.text = "";
@@ -86,9 +86,9 @@ public class ControllerController : MonoBehaviour
                     player1shipQueue.Dequeue();
                 }
                 player1shipQueue.Peek().model.SwapToActive();
-                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " �������";
-                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " ����";
-                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
+                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " Energy";
+                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " Shield";
+                firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " Damage";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
@@ -105,7 +105,7 @@ public class ControllerController : MonoBehaviour
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "�� ������� ����������� �������, ������������ �������!";
+                shipstext.text = "Not enough energy, try to reduce the range!";
                 return;
             }
             shipstext.text = "";
@@ -119,9 +119,9 @@ public class ControllerController : MonoBehaviour
                     player2shipQueue.Dequeue();
                 }
                 player2shipQueue.Peek().model.SwapToActive();
-                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " �������";
-                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " ����";
-                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
+                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " Energy";
+                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " Shield";
+                firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " Damage";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
             currentmodel.energy = currentmodel.energy - Mathf.Abs(currentcontroller.targetship.x - currentcontroller.currentposint.x) - Mathf.Abs(currentcontroller.targetship.y - currentcontroller.currentposint.y) -
@@ -162,16 +162,16 @@ public class ControllerController : MonoBehaviour
         switchshipButton.interactable = true;
         startbutton.interactable = false;
         CanMoveShips = false;
-        myText.text = "������� 1 ������";
+        myText.text = "Player 1 Turn";
         shipControllers = ShipControllers;
         while (!player1shipQueue.Peek().gameObject.activeSelf)
         {
             player1shipQueue.Dequeue();
         }
         player1shipQueue.Peek().model.SwapToActive();
-        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " �������";
-        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " ����";
-        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
+        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " Energy";
+        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " Shield";
+        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " Damage";
         foreach (ShipController shipcon in ShipControllers)
         {
             shipcon.model.Finalise();
@@ -200,16 +200,16 @@ public class ControllerController : MonoBehaviour
         switchshipButton.interactable = true;
         startbutton.interactable = false;
         CanMoveShips = false;
-        myText.text = "������� 1 ������";
+        myText.text = "Player 1 Turn";
         shipstext.text = energytext.text = shieldtext.text = firepowertext.text = "";
         while (!player1shipQueue.Peek().gameObject.activeSelf)
         {
             player1shipQueue.Dequeue();
         }
         player1shipQueue.Peek().model.SwapToActive();
-        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " �������";
-        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " ����";
-        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
+        energytext.text = player1shipQueue.Peek().model.energy.ToString() + " Energy";
+        shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " Shield";
+        firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " Damage";
         for (int i = 0; i <= 100; i += 10) 
             for (int j = 0; j <= 100; j += 10)
                 for (int k = 0; k <= 100; k += 10)
@@ -227,15 +227,15 @@ public class ControllerController : MonoBehaviour
             IsPlayer1Turn = false;
             switchshipButton.interactable = true;
             startbutton.interactable = false;
-            myText.text = "������� 2 ������";
+            myText.text = "Player 2 Turn";
             while (!player2shipQueue.Peek().gameObject.activeSelf)
             {
                 player2shipQueue.Dequeue();
             }
             player2shipQueue.Peek().model.SwapToActive();
-            energytext.text = player2shipQueue.Peek().model.energy.ToString() + " �������";
-            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " ����";
-            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
+            energytext.text = player2shipQueue.Peek().model.energy.ToString() + " Energy";
+            shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " Shield";
+            firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " Damage";
         }
         else if(IsPlayer1Turn == false && CanMoveShips == false)
         {
@@ -244,7 +244,7 @@ public class ControllerController : MonoBehaviour
                 player1shipQueue.Enqueue(controller);
             }
             IsPlayer1Turn = true;
-            myText.text = "������� �����";
+            myText.text = "Player 1 Turn";
             StartCoroutine(WaitForShips());
         }
     }

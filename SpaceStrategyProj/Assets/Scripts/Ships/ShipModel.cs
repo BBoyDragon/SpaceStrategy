@@ -20,7 +20,7 @@ public class ShipModel : MonoBehaviour
     public int warprange;
     public GameObject fire_sphere;
     public GameObject projectilePrefab; 
-    public float projectileSpeed = 10f;   
+    private float projectileSpeed = 1000f;   
     
     private GameObject currentProjectile;   
 
@@ -108,7 +108,7 @@ public class ShipModel : MonoBehaviour
         GameObject controllerObject = GameObject.Find("controllersigma");
 
         // �������� ��� ������� � �������
-        Collider[] hits = Physics.OverlapSphere(transform.position, firerange);
+        Collider[] hits = Physics.OverlapSphere(transform.position, firerange / 2);
 
         // ������ ��������� ��������
         List<GameObject> foundObjects = new List<GameObject>();
@@ -134,9 +134,8 @@ public class ShipModel : MonoBehaviour
         if (foundObjects.Count > 0)
         {
             // ������� ��������� ������
-            GameObject closestObject = foundObjects
-                .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position))
-                .First();
+            foundObjects = foundObjects
+                .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position)).ToList();
 
           
             
