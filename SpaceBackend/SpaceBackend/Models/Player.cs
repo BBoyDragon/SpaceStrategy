@@ -4,5 +4,6 @@
     {
         public string Id;
         public Session session;
+        public List<Ship> ships;
     }
 }

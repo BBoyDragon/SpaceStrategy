@@ -70,7 +70,7 @@ public class ControllerController : MonoBehaviour
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "�� ������� ����������� �������, ������������ �������!";
+                shipstext.text = "Не хватает энергии, попробуйте уменьшить перемещение!";
                 return;
             }
             shipstext.text = "";
@@ -86,8 +86,8 @@ public class ControllerController : MonoBehaviour
                     player1shipQueue.Dequeue();
                 }
                 player1shipQueue.Peek().model.SwapToActive();
-                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " �������";
-                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " ����";
+                energytext.text = player1shipQueue.Peek().model.energy.ToString() + " энергии";
+                shieldtext.text = player1shipQueue.Peek().model.shield.ToString() + " щита(здоровье)";
                 firepowertext.text = player1shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
@@ -105,7 +105,7 @@ public class ControllerController : MonoBehaviour
             if (!(Mathf.Abs(shiptemp.targetship.x - shiptemp.currentposint.x) + Mathf.Abs(shiptemp.targetship.y - shiptemp.currentposint.y) +
                 Mathf.Abs(shiptemp.targetship.z - shiptemp.currentposint.z) <= shiptemp.model.energy))
             {
-                shipstext.text = "�� ������� ����������� �������, ������������ �������!";
+                shipstext.text = "Не хватает энергии, попробуйте уменьшить перемещение!";
                 return;
             }
             shipstext.text = "";
@@ -119,8 +119,8 @@ public class ControllerController : MonoBehaviour
                     player2shipQueue.Dequeue();
                 }
                 player2shipQueue.Peek().model.SwapToActive();
-                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " �������";
-                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " ����";
+                energytext.text = player2shipQueue.Peek().model.energy.ToString() + " энергии";
+                shieldtext.text = player2shipQueue.Peek().model.shield.ToString() + " щита(здоровье)";
                 firepowertext.text = player2shipQueue.Peek().model.firepowermax.ToString() + " ������� ����";
             }
             currentcontroller.GetTargetLocation(input.ReadInput());
@@ -251,30 +251,43 @@ public class ControllerController : MonoBehaviour
 
     public void Senter_Game_Camera()
     {
-        cur_camera.transform.position = currentmodel.transform.position;
-        cur_camera.transform.position = new Vector3(cur_camera.transform.position.x, cur_camera.transform.position.y + 2, cur_camera.transform.position.z);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-     
-        if (CanMoveShips)
+        if (IsPlayer1Turn == true)
         {
-            //foreach (ShipController controller in shipControllers)
-            //{
-            //    if (currentcontroller.targetship == controller.targetship)
-            //    {
-            //        currentcontroller.targetship.x -= 1;
-            //    }
-            //}
-            foreach(ShipController controller in shipControllers)
+            if (player1shipQueue.Count != 0)
             {
-                controller.GetStep();
-                if (Vector3.Distance(controller.ToWorldCoordinates(controller.targetship),controller.transform.position) < 1)
+                cur_camera.transform.position = player1shipQueue.Peek().model.position;
+            }
+        }
+        else
+        {
+            if (player2shipQueue.Count != 0)
+            {
+                cur_camera.transform.position = player2shipQueue.Peek().model.position;
+            }
+            cur_camera.transform.position = new Vector3(cur_camera.transform.position.x, cur_camera.transform.position.y + 2, cur_camera.transform.position.z);
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+            if (CanMoveShips)
+            {
+                //foreach (ShipController controller in shipControllers)
+                //{
+                //    if (currentcontroller.targetship == controller.targetship)
+                //    {
+                //        currentcontroller.targetship.x -= 1;
+                //    }
+                //}
+                foreach (ShipController controller in shipControllers)
                 {
-                    ships_went += 1;
-                    shipControllers = shipControllers.Where(x => Vector3.Distance(x.transform.position,x.ToWorldCoordinates(x.targetship)) > 1).ToList(); 
+                    controller.GetStep();
+                    if (Vector3.Distance(controller.ToWorldCoordinates(controller.targetship), controller.transform.position) < 1)
+                    {
+                        ships_went += 1;
+                        shipControllers = shipControllers.Where(x => Vector3.Distance(x.transform.position, x.ToWorldCoordinates(x.targetship)) > 1).ToList();
+                    }
                 }
             }
         }
