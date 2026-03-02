@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Chek_who_lose : MonoBehaviour
 {
     public ControllerController controller;
+    public bool first_won;
     public bool Are_some_ships_alive1()
     {
         bool ans = false;
@@ -37,10 +38,12 @@ public class Chek_who_lose : MonoBehaviour
         if (!Are_some_ships_alive1())
         {
             SceneManager.LoadScene("Scene3");
+            first_won = false;
         }
         else if (!Are_some_ships_alive2())
         {
             SceneManager.LoadScene("Scene3");
+            first_won = true;
         }
     }
 
@@ -50,5 +53,8 @@ public class Chek_who_lose : MonoBehaviour
         is_somebody_lose();
     }
 
-
+    private void Start()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
 }
