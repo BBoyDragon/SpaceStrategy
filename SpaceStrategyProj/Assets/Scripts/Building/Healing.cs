@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Healing : Heal
 {
-    public int Hod = 0;
+
     // Start is called before the first frame update
     void Start()
     {

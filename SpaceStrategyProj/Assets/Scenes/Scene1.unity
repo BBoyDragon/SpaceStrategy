@@ -1731,6 +1731,7 @@ MonoBehaviour:
   - {fileID: 296244893}
   - {fileID: 283469265}
   ShipControllers: []
+  buildings: []
   input: {fileID: 579120634}
   switchshipButton: {fileID: 425146988}
   cubePrefab: {fileID: 7279609273427609187, guid: 45246022b5162c546ba7c2032f79fe15, type: 3}
@@ -1956,6 +1957,7 @@ MonoBehaviour:
   building: {fileID: 6472607818846373539, guid: 98fcc7cc081151640a88347254449822, type: 3}
   building1: {fileID: 6472607818846373539, guid: 98fcc7cc081151640a88347254449822, type: 3}
   building2: {fileID: 7073661523686360360, guid: 3ea2583f451452144889503eb114100d, type: 3}
+  a: {fileID: 444425209}
 --- !u!114 &579120634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2288,7 +2290,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 100
+  far clip plane: 1000
   field of view: 60
   orthographic: 0
   orthographic size: 5

@@ -16,6 +16,7 @@ public class ControllerController : MonoBehaviour
     public List<ShipController> player2shipControllers;
     public List<ShipController> shipControllers;
     public List<ShipController> ShipControllers;
+    public List<StandardBuilding> buildings;
     public InputFieldReader input;
     public Button switchshipButton;
     public GameObject cubePrefab;
@@ -35,6 +36,7 @@ public class ControllerController : MonoBehaviour
     public bool IsPlayer1Turn = true;
     public int ships_went;
 
+
     public int count_active_ships()
     {
         int count_of_ships = 0;
@@ -47,6 +49,18 @@ public class ControllerController : MonoBehaviour
         }
         return count_of_ships;
     }
+
+    public static void IncrementHodForAllBuildings()
+    {
+        StandardBuilding[] buildings = Object.FindObjectsOfType<StandardBuilding>();
+
+        foreach (StandardBuilding building in buildings)
+        {
+            building.Hod += 1;
+        }
+    }
+
+
 
     public bool full_disactive(Queue<ShipController> Sobludayu_kod_staylik)
     {
@@ -182,9 +196,10 @@ public class ControllerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+        // Start is called before the first frame update
+        void Start()
     {
+
         switchshipButton.onClick.AddListener(QueueMover);
         startbutton.onClick.AddListener(Watasigma);
         center_camera.onClick.AddListener(Senter_Game_Camera);
@@ -245,6 +260,7 @@ public class ControllerController : MonoBehaviour
             }
             IsPlayer1Turn = true;
             myText.text = "Player 1 Turn";
+            IncrementHodForAllBuildings();
             StartCoroutine(WaitForShips());
         }
     }
