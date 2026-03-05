@@ -10,12 +10,12 @@ public class Fabric : StandardBuilding
     public int currentTime;
     public ShipController bomber;
     public ControllerController controller;
-    int hod = 1;
+
 
     // Конструктор по умолчанию
     public Fabric() : base()
     {
-        timeToSpawn = 60;
+        timeToSpawn = 1;
         currentTime = 0;
         bomber = null;
     }
@@ -34,46 +34,39 @@ public class Fabric : StandardBuilding
 
     public void Spawn()
     {
-
-        if (hod == timeToSpawn)
+        Debug.Log("Сработоло");
+        if (Hod == timeToSpawn)
         {
+            Debug.Log("Сработоло");
             if (capturer == 1)
             {
+                Debug.Log("blue");
                 var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
                 controller.player1shipControllers.Add(a);
                 controller.ShipControllers.Add(a);
                 controller.shipControllers.Add(a);
                 a.currentposint = a.ToGameCoordinates(a.model.transform.position);
                 a.targetship = a.ToGameCoordinates(a.model.transform.position);
-                a.model.StartCoroutine(a.model.Fly());
+                
 
             }
             if (capturer == 2)
             {
+                Debug.Log("red");
                 var a = (Instantiate(bomber, transform.position + new Vector3(13, 13, 13), Quaternion.identity));
                 controller.player2shipControllers.Add(a);
                 controller.ShipControllers.Add(a);
                 controller.shipControllers.Add(a);
                 a.currentposint = a.ToGameCoordinates(a.model.transform.position);
                 a.targetship = a.ToGameCoordinates(a.model.transform.position);
-                a.model.StartCoroutine(a.model.Fly());
+               
             }
-            hod = 1;
+
         }
-        else
-        {
-            hod += 1;
-        }
+        
 
     }
 
-    public void Timer()
-    {
-        currentTime++;
-        if (currentTime >= timeToSpawn)
-        {
-            currentTime = 0;
-        }
-    }
+    
 }
 

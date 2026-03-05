@@ -14,6 +14,7 @@ public class Heal : StandardBuilding
         // Проверяет захваченна ли она, кем, ищет корабли и хилит их.
         // Радиус поиска (20 единиц)
         float searchRadius = 20f;
+        Debug.Log("Сработоло");
 
         // Позиция для поиска (позиция текущего объекта)
         Vector3 searchPosition = transform.position;
@@ -31,7 +32,7 @@ public class Heal : StandardBuilding
             if (!obj.activeSelf) continue;
 
             // Пропускаем сам объект лечения
-            if (obj == gameObject) continue;
+
 
             // Вычисляем расстояние до объекта
             float distance = Vector3.Distance(searchPosition, obj.transform.position);
@@ -42,7 +43,7 @@ public class Heal : StandardBuilding
                 ShipModel shipModel = obj.GetComponent<ShipModel>();
 
                 
-                if (shipModel != null)
+                if (shipModel != null && shipModel.capturer == capturer)
                 {
                     
                     shipModel.shield += 10;
@@ -52,7 +53,7 @@ public class Heal : StandardBuilding
                 }
             }
         }
-
         
-    }
+
+}
 }

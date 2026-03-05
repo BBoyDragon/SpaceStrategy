@@ -99,16 +99,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: 10
+  Hod: 0
   shieldMax: 100
-  shieldRegen: 1
+  shieldRegen: 2
   id: -1
   capturer: 0
   potentialdamage: 0
-  DistanceOfHealing: 0
-  HpHeal: 0
-  EnergyHeal: 0
-  ShieldHealing: 0
-  Hod: 0
+  DistanceOfHealing: 30
+  HpHeal: 30
+  EnergyHeal: 30
+  ShieldHealing: 30
 --- !u!135 &339812543555911099
 SphereCollider:
   m_ObjectHideFlags: 0
