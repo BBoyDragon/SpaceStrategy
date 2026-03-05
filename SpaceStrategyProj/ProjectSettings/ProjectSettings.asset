@@ -12,8 +12,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: SpaceStrategyProj
+  companyName: Stepa & Misha, ltd.
+  productName: Space Strategy
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -286,7 +286,14 @@ PlayerSettings:
   AndroidMinifyDebug: 0
   AndroidValidateAppBundleSize: 1
   AndroidAppBundleSizeToValidate: 150
-  m_BuildTargetIcons: []
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 2800000, guid: 094255d4cfac241408724aa266f37d4f, type: 3}
+      m_Width: 128
+      m_Height: 128
+      m_Kind: 0
   m_BuildTargetPlatformIcons:
   - m_BuildTarget: Android
     m_Icons:
@@ -872,15 +879,15 @@ PlayerSettings:
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: SpaceStrategyProj
-  metroPackageVersion: 
-  metroCertificatePath: 
+  metroPackageVersion: 1.0.0.0
+  metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: Stepa _ Misha, ltd.
+  metroCertificateIssuer: Stepa _ Misha, ltd.
+  metroCertificateNotAfter: 003c1be6d5cbdd01
   metroApplicationDescription: SpaceStrategyProj
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: SpaceStrategyProj
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
