@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class ShipModel : MonoBehaviour
 {
+    public GameObject explos;
     private Coroutine flyCoroutine;
     public bool AF;
     public int energy;
@@ -20,7 +21,7 @@ public class ShipModel : MonoBehaviour
     public int warprange;
     public GameObject fire_sphere;
     public GameObject projectilePrefab; 
-    public float projectileSpeed = 10f;   
+    private float projectileSpeed = 300f;   
     
     private GameObject currentProjectile;   
 
@@ -108,7 +109,7 @@ public class ShipModel : MonoBehaviour
         GameObject controllerObject = GameObject.Find("controllersigma");
 
         // �������� ��� ������� � �������
-        Collider[] hits = Physics.OverlapSphere(transform.position, firerange);
+        Collider[] hits = Physics.OverlapSphere(transform.position, firerange / 2);
 
         // ������ ��������� ��������
         List<GameObject> foundObjects = new List<GameObject>();
@@ -134,9 +135,8 @@ public class ShipModel : MonoBehaviour
         if (foundObjects.Count > 0)
         {
             // ������� ��������� ������
-            GameObject closestObject = foundObjects
-                .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position))
-                .First();
+            foundObjects = foundObjects
+                .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position)).ToList();
 
           
             
@@ -217,8 +217,9 @@ public class ShipModel : MonoBehaviour
     private void OnProjectileHit(GameObject target, GameObject projectile)
     {
         // ����� ����� �������� ������� (�����, ���� � �.�.)
-        Destroy(projectile); // ���������� ������
 
+        Destroy(projectile); // ���������� ������
+        StartCoroutine(CABOOM(projectile));
         // �������������: ����� ������� ���� ����� ��� ���������
         /*if (target.TryGetComponent(out ShipModel ship))
         {
@@ -228,6 +229,13 @@ public class ShipModel : MonoBehaviour
         {
             building.potentialdamage += firepowermax;
         }*/
+    }
+    public IEnumerator CABOOM(GameObject projectile)
+    {
+        GameObject a;
+        a = Instantiate(explos, projectile.transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(2);
+        Destroy(a.gameObject);
     }
     public IEnumerator Fly()
     {

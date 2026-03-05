@@ -99,16 +99,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shield: 10
+  Hod: 0
   shieldMax: 100
   shieldRegen: 1
   id: -1
   capturer: 2
   potentialdamage: 0
-  timeToSpawn: 60
+  timeToSpawn: 1
   currentTime: 0
   bomber: {fileID: 4788390126146900242, guid: b55e3ba87df7afd44beecd7a1e537f83, type: 3}
   controller: {fileID: 0}
-  Hod: 0
 --- !u!135 &-6465261751134660055
 SphereCollider:
   m_ObjectHideFlags: 0

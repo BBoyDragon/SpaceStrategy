@@ -8,6 +8,8 @@ public class StandardBuilding : MonoBehaviour
 {
     // Поля класса
     public int shield;
+    public int Hod;
+
     public int shieldMax;
     public int shieldRegen;
     public int id;
@@ -23,6 +25,7 @@ public class StandardBuilding : MonoBehaviour
         shieldRegen = 1;
         id = -1;
         capturer = 0;
+        Hod = 0;
     }
 
     // Параметризованный конструктор
@@ -78,5 +81,10 @@ public class StandardBuilding : MonoBehaviour
         {
             capturer = foundmodel.GetComponent<ShipModel>().capturer;
         }
+    }
+    public void Timer()
+    {
+
+        ++Hod;
     }
 }
