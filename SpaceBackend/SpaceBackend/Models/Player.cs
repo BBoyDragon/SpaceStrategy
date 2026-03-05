@@ -3,6 +3,7 @@
     public class Player
     {
         public string Id;
-        public Session Session;
+        public Session session;
+        public List<Ship> ships;
     }
 }
