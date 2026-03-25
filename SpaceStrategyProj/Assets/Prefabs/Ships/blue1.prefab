@@ -209,7 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 739d4368dbea6d34a9cf2421efe57555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hod: 0
   explos: {fileID: 3345248989584403936, guid: 6b5e9c3dedde64240ac58831af0e3754, type: 3}
+  IsShield: 0
   AF: 0
   energy: 100
   energyregen: 1
@@ -222,9 +224,11 @@ MonoBehaviour:
   warprange: 1
   fire_sphere: {fileID: 7535921800474047950}
   projectilePrefab: {fileID: 4311832407544478561, guid: 26cd740aa8ae67d4081eb023bc878908, type: 3}
+  Shield3D: {fileID: 0}
   die: {fileID: 8300000, guid: 8726257d63d9ae2418752c88e49f0cc4, type: 3}
   shoot: {fileID: 8300000, guid: 96ed829faeb2986449d8c070299ba669, type: 3}
   source: {fileID: -4023195940800173699}
+  IsTank: 0
   firepowermin: 1
   firepowermax: 5
   firerange: 1
@@ -242,6 +246,7 @@ MonoBehaviour:
   - ShipModel
   - Fabric_1
   - Healing
+  this_ship: {fileID: -4023195940800173699}
 --- !u!114 &4788390126146900242
 MonoBehaviour:
   m_ObjectHideFlags: 0
