@@ -10,7 +10,13 @@ public class Fabric : StandardBuilding
     public int currentTime;
     public ShipController bomber;
     public ControllerController controller;
+    public AudioClip spawn_sound;
+    public AudioSource source;
 
+    private void Start()
+    {
+        source.clip = spawn_sound;
+    }
 
     // Конструктор по умолчанию
     public Fabric() : base()
@@ -47,8 +53,7 @@ public class Fabric : StandardBuilding
                 controller.shipControllers.Add(a);
                 a.currentposint = a.ToGameCoordinates(a.model.transform.position);
                 a.targetship = a.ToGameCoordinates(a.model.transform.position);
-                
-
+                source.Play();
             }
             if (capturer == 2)
             {
@@ -59,7 +64,7 @@ public class Fabric : StandardBuilding
                 controller.shipControllers.Add(a);
                 a.currentposint = a.ToGameCoordinates(a.model.transform.position);
                 a.targetship = a.ToGameCoordinates(a.model.transform.position);
-               
+                source.Play();
             }
 
         }

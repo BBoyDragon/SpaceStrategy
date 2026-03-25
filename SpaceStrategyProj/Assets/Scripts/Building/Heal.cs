@@ -9,6 +9,14 @@ public class Heal : StandardBuilding
     public int HpHeal;
     public int EnergyHeal;
     public int ShieldHealing;
+    public AudioClip heal_sound;
+    public AudioSource source;
+
+    private void Start()
+    {
+        source.clip = heal_sound;
+    }
+
     public void Healing()
     {
         // Проверяет захваченна ли она, кем, ищет корабли и хилит их.
@@ -47,6 +55,7 @@ public class Heal : StandardBuilding
                 {
                     
                     shipModel.shield += 10;
+                    source.Play();
 
                     
                     shipModel.shield = Mathf.Min(shipModel.shield, shipModel.shieldmax);

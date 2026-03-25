@@ -11,12 +11,12 @@ using JetBrains.Annotations;
 
 public class ControllerController : MonoBehaviour
 {
-
     public List<ShipController> player1shipControllers;
     public List<ShipController> player2shipControllers;
     public List<ShipController> shipControllers;
     public List<ShipController> ShipControllers;
     public List<StandardBuilding> buildings;
+    public List<GameObject> predicts;
     public InputFieldReader input;
     public Button switchshipButton;
     public GameObject cubePrefab;
@@ -35,7 +35,14 @@ public class ControllerController : MonoBehaviour
     public bool CanMoveShips = false;
     public bool IsPlayer1Turn = true;
     public int ships_went;
-
+    public AudioClip click_sound;
+//    public AudioClip test1_sound;
+//    public AudioClip test2_sound;
+    public List<AudioSource> buttons_sources;
+    public AudioSource background_music;
+    public GameObject ship_predict;
+    public GameObject line_predict;
+    public Material predict_material;
 
     public int count_active_ships()
     {
@@ -72,6 +79,7 @@ public class ControllerController : MonoBehaviour
     }
     public void QueueMover()
     {
+       buttons_sources[0].Play();
        if (player1shipQueue.Count != 0 && !full_disactive(player1shipQueue))
        {
             while (!player1shipQueue.Peek().gameObject.activeSelf)
@@ -199,7 +207,10 @@ public class ControllerController : MonoBehaviour
         // Start is called before the first frame update
         void Start()
     {
-
+        background_music.Play();
+        buttons_sources[0].clip = click_sound;
+        buttons_sources[2].clip = click_sound;
+        buttons_sources[1].clip = click_sound;
         switchshipButton.onClick.AddListener(QueueMover);
         startbutton.onClick.AddListener(Watasigma);
         center_camera.onClick.AddListener(Senter_Game_Camera);
@@ -229,10 +240,27 @@ public class ControllerController : MonoBehaviour
             for (int j = 0; j <= 100; j += 10)
                 for (int k = 0; k <= 100; k += 10)
                     Instantiate(cubePrefab, new Vector3(i,j,k), Quaternion.identity);
+        ship_predict.transform.position = new Vector3(1234, 1234, 1234);
+        float lineWidth = 0.1f;
+        line_predict.transform.parent = this.transform; // Делаем текущий объект родителем
+        line_predict.transform.localPosition = Vector3.zero;
+
+        LineRenderer lr = line_predict.AddComponent<LineRenderer>();
+
+        // Настраиваем Line Renderer
+        lr.material = predict_material;
+        lr.startWidth = lineWidth;
+        lr.endWidth = lineWidth;
+        lr.positionCount = 2;
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.receiveShadows = false;
+        lr.useWorldSpace = true;
+        line_predict.isStatic = true;
     }
 
     public void Watasigma()
     {
+        buttons_sources[1].Play();
         if (IsPlayer1Turn == true && CanMoveShips == false)
         {
             foreach (ShipController controller in player2shipControllers)
@@ -267,6 +295,7 @@ public class ControllerController : MonoBehaviour
 
     public void Senter_Game_Camera()
     {
+        buttons_sources[2].Play();
         cur_camera.transform.position = currentmodel.transform.position;
         cur_camera.transform.position = new Vector3(cur_camera.transform.position.x, cur_camera.transform.position.y + 2, cur_camera.transform.position.z);
     }
@@ -274,7 +303,6 @@ public class ControllerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
         if (CanMoveShips)
         {
             //foreach (ShipController controller in shipControllers)
@@ -284,16 +312,36 @@ public class ControllerController : MonoBehaviour
             //        currentcontroller.targetship.x -= 1;
             //    }
             //}
-            foreach(ShipController controller in shipControllers)
+            foreach (ShipController controller in shipControllers)
             {
                 controller.GetStep();
-                if (Vector3.Distance(controller.ToWorldCoordinates(controller.targetship),controller.transform.position) < 1)
+                if (Vector3.Distance(controller.ToWorldCoordinates(controller.targetship), controller.transform.position) < 1)
                 {
                     ships_went += 1;
-                    shipControllers = shipControllers.Where(x => Vector3.Distance(x.transform.position,x.ToWorldCoordinates(x.targetship)) > 1).ToList(); 
+                    shipControllers = shipControllers.Where(x => Vector3.Distance(x.transform.position, x.ToWorldCoordinates(x.targetship)) > 1).ToList();
                 }
             }
         }
+        else
+        {
+            Draw_Prediction();
+        }
+    }
+
+    public void  Draw_Prediction()
+    {
+    ShipController shiptemp;
+    if (IsPlayer1Turn && player1shipQueue.Count() > 0) { shiptemp = player1shipQueue.Peek(); }
+    else if (!IsPlayer1Turn && player2shipQueue.Count() > 0) { shiptemp = player2shipQueue.Peek(); }
+    else { return; }
+    LineRenderer lr = line_predict.GetComponent<LineRenderer>();
+
+    if (shiptemp.currentposint != input.ReadInput())
+    {
+        lr.SetPosition(0, shiptemp.gameObject.transform.position);
+        lr.SetPosition(1, shiptemp.ToWorldCoordinates(input.ReadInput()));
+        ship_predict.transform.position = shiptemp.ToWorldCoordinates(input.ReadInput());
+    }
     }
 
     public void OnDestroy() 

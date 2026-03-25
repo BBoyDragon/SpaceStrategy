@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -52,6 +53,9 @@ public class ShipModel : MonoBehaviour
         "Fabric_1",
         "Healing"
     };
+
+    public AudioSource this_ship;
+
     private void ProcessObjectsWithHod()
     {
         // �������� ��� ���������� �� �����
@@ -283,6 +287,13 @@ public class ShipModel : MonoBehaviour
         cur_filter.mesh = mesh_1;
         fire_sphere.SetActive(false);
     }
+   
+    IEnumerator Wait_For_Destroy()
+    {
+        this_ship.Play();
+        yield return new WaitForSeconds(4);
+        gameObject.SetActive(false);
+    }
 
     public void Finalise()
     {
@@ -291,8 +302,7 @@ public class ShipModel : MonoBehaviour
         potentialdamage = 0;
         if (shield <= 0)
         {
-
-            gameObject.SetActive(false);
+            StartCoroutine(Wait_For_Destroy());
         }
         readytofinalize = false;
     }
