@@ -7,8 +7,10 @@ using UnityEngine.UIElements;
 
 public class ShipModel : MonoBehaviour
 {
+    public int hod = 0;
     public GameObject explos;
     private Coroutine flyCoroutine;
+    public bool IsShield = false;
     public bool AF;
     public int energy;
     public int energyregen;
@@ -20,8 +22,21 @@ public class ShipModel : MonoBehaviour
     public int speed;
     public int warprange;
     public GameObject fire_sphere;
-    public GameObject projectilePrefab; 
+    public GameObject projectilePrefab;
+    public GameObject Shield3D; 
     private float projectileSpeed = 300f;   
+    public AudioClip die;
+    public AudioClip shoot;
+    public AudioSource source;
+    public bool IsTank = false;
+    bool IsFirstSpawn = true;
+    List<GameObject> prev = new List<GameObject>();
+    List<Vector3> v = new List<Vector3>
+    {
+        new Vector3(-10, -10, 10), new Vector3(0, -10, 10), new Vector3(10, -10, 10),
+        new Vector3(-10, 0, 10), new Vector3(0, 0, 10), new Vector3(10, 0, 10),
+        new Vector3(-10, 10, 10), new Vector3(0, 10, 10), new Vector3(10, 10, 10)
+    };
     
     private GameObject currentProjectile;   
 
@@ -54,6 +69,7 @@ public class ShipModel : MonoBehaviour
     };
     private void ProcessObjectsWithHod()
     {
+        if (IsShield) return;
         // �������� ��� ���������� �� �����
         Component[] allComponents = FindObjectsOfType<Component>();
 
@@ -71,7 +87,7 @@ public class ShipModel : MonoBehaviour
     }
     private void SetControllerValue()
     {
-        
+        if (IsShield) return;
         // ������� ������ �� �����
         GameObject controllerObject = GameObject.Find("controllersigma");
 
@@ -103,91 +119,126 @@ public class ShipModel : MonoBehaviour
     {
         return firemax - firemin;
     }
+    int f(int a)
+    {
+        if (a == 1) return 1;
+        else return -1;
+    }
     public void Fire()
     {
-        Debug.Log("C");
-        GameObject controllerObject = GameObject.Find("controllersigma");
-
-        // �������� ��� ������� � �������
-        Collider[] hits = Physics.OverlapSphere(transform.position, firerange / 2);
-
-        // ������ ��������� ��������
-        List<GameObject> foundObjects = new List<GameObject>();
-
-        // ��������� ������ ������
-        foreach (Collider hit in hits)
+        if (IsShield) return;
+        ++hod;
+        if (!IsTank)
         {
-            GameObject obj = hit.gameObject;
+            Debug.Log("C");
+            GameObject controllerObject = GameObject.Find("controllersigma");
 
-            // ��������� ������� ������ �� ������� ����������� �� �����
-            foreach (string componentName in targetComponents)
+            // �������� ��� ������� � �������
+            Collider[] hits = Physics.OverlapSphere(transform.position, firerange / 2);
+
+            // ������ ��������� ��������
+            List<GameObject> foundObjects = new List<GameObject>();
+
+            // ��������� ������ ������
+            foreach (Collider hit in hits)
             {
-                Component component = obj.GetComponent(componentName);
-                if (component != null)
+                GameObject obj = hit.gameObject;
+
+                // ��������� ������� ������ �� ������� ����������� �� �����
+                foreach (string componentName in targetComponents)
                 {
-                    foundObjects.Add(obj);
-                    break;
+                    Component component = obj.GetComponent(componentName);
+                    if (component != null)
+                    {
+                        foundObjects.Add(obj);
+                        break;
+                    }
+                }
+            }
+
+            // ���� ������� �������
+            if (foundObjects.Count > 0)
+            {
+                // ������� ��������� ������
+                foundObjects = foundObjects
+                    .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position)).ToList();
+
+
+
+
+                // ��������� ������ ��������� ����� (��� � ���������)
+                for (int i = 0; i < foundObjects.Count; i++)
+                {
+                    if (foundObjects[i].TryGetComponent(out ShipModel shipModel))
+                    {
+                        Debug.Log(shipModel.capturer);
+                        Debug.Log(capturer);
+                        if (shipModel.capturer != capturer)
+                        {
+                            Debug.Log("X");
+                            shipModel.potentialdamage += firepowermax;
+                            if (projectilePrefab != null)
+                            {
+                                Debug.Log("���������");
+                                currentProjectile = Instantiate(
+                                    projectilePrefab,
+                                    transform.position,
+                                    Quaternion.identity
+                                );
+                                currentProjectile.gameObject.transform.LookAt(shipModel.transform);
+                                // ��������� �������� ������� � ����
+                                StartCoroutine(MoveProjectileToTarget(currentProjectile, shipModel.gameObject));
+                            }
+                            break;
+                        }
+                    }
+                    else if (foundObjects[i].TryGetComponent(out StandardBuilding standardBuilding))
+                    {
+                        if (standardBuilding.capturer != capturer)
+                        {
+                            Debug.Log("Y");
+                            standardBuilding.potentialdamage += firepowermax;
+                            if (projectilePrefab != null)
+                            {
+                                Debug.Log("���������");
+                                currentProjectile = Instantiate(
+                                    projectilePrefab,
+                                    transform.position,
+                                    Quaternion.identity
+                                );
+                                currentProjectile.gameObject.transform.LookAt(standardBuilding.transform);
+
+                                // ��������� �������� ������� � ����
+                                StartCoroutine(MoveProjectileToTarget(currentProjectile, standardBuilding.gameObject));
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
-
-        // ���� ������� �������
-        if (foundObjects.Count > 0)
+        else if(hod == 3)
         {
-            // ������� ��������� ������
-            foundObjects = foundObjects
-                .OrderBy(obj => Vector3.SqrMagnitude(transform.position - obj.transform.position)).ToList();
-
-          
-            
-
-            // ��������� ������ ��������� ����� (��� � ���������)
-            for (int i = 0; i < foundObjects.Count; i++)
+            hod = 0;
+            if(IsFirstSpawn)
             {
-                if (foundObjects[i].TryGetComponent(out ShipModel shipModel))
+                IsFirstSpawn = false;
+                for (int i = 0; i < 9; i++)
                 {
-                    Debug.Log(shipModel.capturer);
-                    Debug.Log(capturer);
-                    if (shipModel.capturer != capturer)
-                    {
-                        Debug.Log("X");
-                        shipModel.potentialdamage += firepowermax;
-                        if (projectilePrefab != null)
-                        {
-                            Debug.Log("���������");
-                            currentProjectile = Instantiate(
-                                projectilePrefab,
-                                transform.position,
-                                Quaternion.identity
-                            );
-                            currentProjectile.gameObject.transform.LookAt(shipModel.transform);
-                            // ��������� �������� ������� � ����
-                            StartCoroutine(MoveProjectileToTarget(currentProjectile, shipModel.gameObject));
-                        }
-                        break;
-                    }
+                    prev.Add(Instantiate(Shield3D, gameObject.transform.position + v[i] * f(capturer), Quaternion.identity));
                 }
-                else if (foundObjects[i].TryGetComponent(out StandardBuilding standardBuilding))
-                {
-                    if (standardBuilding.capturer != capturer)
-                    {
-                        Debug.Log("Y");
-                        standardBuilding.potentialdamage += firepowermax;
-                        if (projectilePrefab != null)
-                        {
-                            Debug.Log("���������");
-                            currentProjectile = Instantiate(
-                                projectilePrefab,
-                                transform.position,
-                                Quaternion.identity
-                            );
-                            currentProjectile.gameObject.transform.LookAt(standardBuilding.transform);
 
-                            // ��������� �������� ������� � ����
-                            StartCoroutine(MoveProjectileToTarget(currentProjectile, standardBuilding.gameObject));
-                        }
-                        break;
-                    }
+            }
+            else
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    Destroy(prev[i]);
+                }
+                for (int i = 0; i < 9; i++)
+                {
+                    prev[i] = Instantiate(Shield3D, gameObject.transform.position + v[i] * f(capturer), Quaternion.identity);
+                    
                 }
             }
         }
@@ -216,9 +267,13 @@ public class ShipModel : MonoBehaviour
     }
     private void OnProjectileHit(GameObject target, GameObject projectile)
     {
+        //if (IsShield) return;
         // ����� ����� �������� ������� (�����, ���� � �.�.)
 
         Destroy(projectile); // ���������� ������
+        source.clip = shoot;
+        source.Play();
+
         StartCoroutine(CABOOM(projectile));
         // �������������: ����� ������� ���� ����� ��� ���������
         /*if (target.TryGetComponent(out ShipModel ship))
@@ -239,6 +294,7 @@ public class ShipModel : MonoBehaviour
     }
     public IEnumerator Fly()
     {
+        if(IsShield) yield return null;
         Fire();
         ProcessObjectsWithHod();
         SetControllerValue();
@@ -249,12 +305,14 @@ public class ShipModel : MonoBehaviour
     }
     private void Start()
     {
+        if (IsShield) return;
+        source.clip = null;
         projectileSpeed *= Time.deltaTime;
         transform = GetComponent<Transform>();
         Vector3 positionn = transform.position;
         position = positionn;
         mesh.material = unactive_material;
-        fire_sphere.transform.localScale = new Vector3(firerange, firerange, firerange);
+        if(!IsTank)fire_sphere.transform.localScale = new Vector3(firerange, firerange, firerange);
 
     }
 
@@ -274,13 +332,17 @@ public class ShipModel : MonoBehaviour
 
     public void SwapToActive()
     {
+        if (IsShield) return;
         cur_filter.mesh = mesh_2;
+        if (IsTank) return;
         fire_sphere.SetActive(true);
     }
 
     public void SwapToUnactive()
     {
+        if (IsShield) return;
         cur_filter.mesh = mesh_1;
+        if (IsTank) return;
         fire_sphere.SetActive(false);
     }
 
@@ -291,8 +353,13 @@ public class ShipModel : MonoBehaviour
         potentialdamage = 0;
         if (shield <= 0)
         {
-
+            if (!IsShield)
+            {
+                source.clip = die;
+                source.Play();
+            }
             gameObject.SetActive(false);
+
         }
         readytofinalize = false;
     }

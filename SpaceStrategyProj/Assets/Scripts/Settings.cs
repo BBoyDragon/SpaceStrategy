@@ -8,16 +8,24 @@ using UnityEngine.UI;
 public class Settings : MonoBehaviour
 {
     public Button but_start;
-    GameObject window;
+    public GameObject window;
     public Button but_end;
     public Button but_sound;
     public Button but_back;
+    [SerializeField] Slider s;
+    //[SerializeField] AudioListener audio;
+    
     void Start()
     {
         but_back.onClick.AddListener(OnButtonClicked1);
         but_start.onClick.AddListener(OnButtonClicked2);
         but_end.onClick.AddListener(OnButtonClicked3);
         but_sound.onClick.AddListener(OnButtonClicked4);
+    }
+
+    private void Update()
+    {
+        AudioListener.volume = s.value;
     }
 
     void OnButtonClicked1()
@@ -34,7 +42,8 @@ public class Settings : MonoBehaviour
     }
     void OnButtonClicked4()
     {
-        return;
+        AudioListener.volume = 0;
+        s.value = 0;
     }
 
 }

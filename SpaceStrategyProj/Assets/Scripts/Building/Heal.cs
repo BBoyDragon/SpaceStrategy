@@ -9,6 +9,9 @@ public class Heal : StandardBuilding
     public int HpHeal;
     public int EnergyHeal;
     public int ShieldHealing;
+    public GameObject lol;
+
+    
     public void Healing()
     {
         // Проверяет захваченна ли она, кем, ищет корабли и хилит их.
@@ -47,6 +50,7 @@ public class Heal : StandardBuilding
                 {
                     
                     shipModel.shield += 10;
+                    StartCoroutine(wenom(obj));
 
                     
                     shipModel.shield = Mathf.Min(shipModel.shield, shipModel.shieldmax);
@@ -56,4 +60,9 @@ public class Heal : StandardBuilding
         
 
 }
+    IEnumerator wenom(GameObject target) {
+        GameObject a = Instantiate(lol, target.transform);
+        yield return new WaitForSeconds(1);
+        Destroy(a);
+    }
 }
