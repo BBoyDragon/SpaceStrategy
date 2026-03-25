@@ -207,6 +207,7 @@ public class ControllerController : MonoBehaviour
         // Start is called before the first frame update
         void Start()
     {
+        background_music.loop = true;
         background_music.Play();
         buttons_sources[0].clip = click_sound;
         buttons_sources[2].clip = click_sound;
